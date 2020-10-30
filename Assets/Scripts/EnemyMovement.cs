@@ -30,13 +30,7 @@ public class EnemyMovement : MonoBehaviour
         timer -= Time.deltaTime;
         transform.position += moveSpeed * forward * Time.deltaTime;
         //accelerate enemies and make them go a different direction
-        if (timer <= 0)
-        {
-            float randAngle = Random.Range(0, Mathf.Deg2Rad * 360);
-            forward = new Vector3(Mathf.Cos(randAngle), Mathf.Sin(randAngle));
-            moveSpeed+=0.3f;
-            timer = 3f;
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,6 +42,7 @@ public class EnemyMovement : MonoBehaviour
             forward *= -1;
         }
 
+        //when it gets hit by the push
         if (collision.gameObject.CompareTag("Attack"))
         {
             
