@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource audio;
     public AudioSource powerup;
 
+    public GameObject [] hats; // for rendering the hat ONLY
 
     // Start is called before the first frame update
     void Start()
@@ -226,11 +227,9 @@ public class PlayerMovement : MonoBehaviour
         CanMove = false;
         yield return new WaitForSeconds(MoveDelayTime);
         CanMove = true;
-
-
     }
 
-    void ContinuousMove()
+    public void ContinuousMove()
     {
         powerup.Play();
         //activates continuous movement
@@ -261,6 +260,20 @@ public class PlayerMovement : MonoBehaviour
                 audio.pitch = Random.Range(0.7f, 1.1f);
                 audio.Play();
             }
+        }
+
+        else if (collision.gameObject.CompareTag("Hat"))
+        {
+            // show hat
+            for (int i = 0; i < hats.Length; i++ ){
+                if(hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType) {
+                    hats[i].SetActive(true); 
+                } else {
+                    hats[i].SetActive(false); 
+                }
+            }
+            collision.gameObject.GetComponent<HatBehavior>().activateHat();
+            Destroy(collision.gameObject);
         }
 
     }
