@@ -14,20 +14,19 @@ public class PlayerMovement : MonoBehaviour
     Vector3 targetPosition;
     Vector3 startPosition;
     bool moving;
-    public bool CanMove = true;
+    private bool CanMove = true;
     public float MoveDelayTime = 0.5f;
     //attack
     public GameObject attack;
     GameObject attackObj;
     public float attackLength = 0.25f;
-    public GameObject vfx;
 
     //for collision
 
     //timer
     public GameObject bar;
-    public float time = 2f;
-    public bool canFire = false;
+    public float pushTime = 2f;
+    private bool canFire = false;
 
     //killbar
     public GameObject killBar;
@@ -35,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     //public bool canKill = false;
 
     //continous move
-    public bool discreteMove = true;
+    private bool discreteMove = true;
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
@@ -237,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         col.radius += 1;
         //increase size of player
         gameObject.transform.localScale *= 2;
-        enemy.moveSpeed = 0f;
+        //enemy.moveSpeed = 0f;
         Debug.Log("enemy movespeed " + enemy.moveSpeed);
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
@@ -267,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canFire)
         {
-            LeanTween.scaleX(bar, 1, time).setOnComplete(FireEnable);
+            LeanTween.scaleX(bar, 1, pushTime).setOnComplete(FireEnable);
             //watched this tutorial for the bar timer: https://www.youtube.com/watch?v=z7bR_xYcopM
 
         }
@@ -300,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
         canFire = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
         //does this work?
         Debug.Log("Collision with Wall WORKS");
@@ -309,6 +308,6 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("PLEASE WORK");
             body.velocity = Vector3.zero; 
         }
-    }
+    }*/
 
 }
