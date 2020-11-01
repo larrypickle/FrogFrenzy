@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject attack;
     GameObject attackObj;
     public float attackLength = 0.25f;
+
+    public float objectScale = 0.3f;
     public GameObject vfx;
 
     //for collision
@@ -278,10 +280,10 @@ public class PlayerMovement : MonoBehaviour
     {
         
         //reset values
-        if(gameObject.transform.localScale.x != 0.4f)
+        if(gameObject.transform.localScale.x != objectScale)
         {
             col.radius = 1;
-            gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            gameObject.transform.localScale = new Vector3(objectScale, objectScale, objectScale);
             gameObject.transform.localRotation = Quaternion.identity;
             body.velocity = Vector3.zero;
             body.angularVelocity = 0f;
