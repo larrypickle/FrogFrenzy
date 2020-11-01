@@ -7,15 +7,18 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     float timer = 0f;
-    public GameObject enemy;
+    //public GameObject enemy;
     public float enemyTimerRate = 2f;
-    public string Enemy;
+    public string[] Enemy;
+    
 
-    public float currScore = 0f;
+    private float currScore = 0f;
     public TextMeshProUGUI scoreText;
     public PlayerMovement player;
 
-    
+    //different enemy spawn bools
+    private bool AppleEnemy = false;
+    private bool SpinningEnemy = false;
     
     // Start is called before the first frame update
     void Start()
@@ -30,8 +33,18 @@ public class GameManager : MonoBehaviour
         //spawns more enemies over time
         if (timer <= 0)
         {
-            ObjectPooler.Instance.SpawnFromPool(Enemy, new Vector3(0, 0), Quaternion.identity);
+            ObjectPooler.Instance.SpawnFromPool(Enemy[0], new Vector3(0, 0), Quaternion.identity);
             //GameObject enemyObj = Instantiate(enemy, new Vector3(0f, 0f), Quaternion.identity) as GameObject;
+            if (SpinningEnemy)
+            {
+                ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
+            }
+
+            if (AppleEnemy)
+            {
+                ObjectPooler.Instance.SpawnFromPool(Enemy[2], new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
+            }
+            
             timer = enemyTimerRate;
         }
 
@@ -40,24 +53,27 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
         }
 
-        if(currScore > 10f)
-        {
-            enemyTimerRate = 0.8f;
-            //player.moveSpeed += 1f;
-            //player.time -= 0.2f;
-        }
-        if(currScore > 20f)
-        {
-            enemyTimerRate = 0.6f;
-        }
-        if(currScore > 30f)
-        {
-            enemyTimerRate = 0.45f;
-        }
+        
     }
     public void UpdateScore()
     {
         currScore++;
         scoreText.SetText("Score: " + currScore.ToString());
+        if (currScore > 15f)
+        {
+            enemyTimerRate = 0.8f;
+            //player.moveSpeed += 1f;
+            //player.time -= 0.2f;
+            SpinningEnemy = true;
+        }
+        if (currScore > 20f)
+        {
+            enemyTimerRate = 0.6f;
+        }
+        if (currScore > 30f)
+        {
+            enemyTimerRate = 0.45f;
+            AppleEnemy = true;
+        }
     }
 }
