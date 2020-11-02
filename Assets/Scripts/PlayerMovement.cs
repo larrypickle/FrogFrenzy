@@ -21,12 +21,13 @@ public class PlayerMovement : MonoBehaviour
     Vector3 targetPosition;
     Vector3 startPosition;
     bool moving;
-    public bool CanMove = true;
+    private bool CanMove = true;
     public float MoveDelayTime = 0.5f;
     //attack
     public GameObject attack;
     GameObject attackObj;
     public float attackLength = 0.25f;
+    public float objectScale = 0.3f;
     public GameObject vfx;
 
     //for collision
@@ -34,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
     //timer
     [Header("Timer")]
     public GameObject bar;
-    public float time = 2f;
-    public bool canFire = false;
+    public float pushTime = 2f;
+    private bool canFire = false;
 
     //killbar
     [Header("Killbar")]
@@ -44,8 +45,12 @@ public class PlayerMovement : MonoBehaviour
     //public bool canKill = false;
 
     //continous move
+<<<<<<< HEAD
     [Header("Continuous Move")]
     public bool discreteMove = true;
+=======
+    private bool discreteMove = true;
+>>>>>>> 81e24d40504fc3d3234ef6e17f3998d052c25dcf
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
@@ -59,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource audio;
     public AudioSource powerup;
 
+    public GameObject [] hats; // for rendering the hat ONLY
 
     private MoveState _moveState = MoveState.Idle;
     private Vector2 _moveInput;
@@ -201,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
         CanMove = true;
     }
 
-    void ContinuousMove()
+    public void ContinuousMove()
     {
         powerup.Play();
         //activates continuous movement
@@ -210,8 +216,13 @@ public class PlayerMovement : MonoBehaviour
         col.radius += 1;
         //increase size of player
         gameObject.transform.localScale *= 2;
+<<<<<<< HEAD
         enemy.moveSpeed = 0f;
         //.Log("enemy movespeed " + enemy.moveSpeed);
+=======
+        //enemy.moveSpeed = 0f;
+        Debug.Log("enemy movespeed " + enemy.moveSpeed);
+>>>>>>> 81e24d40504fc3d3234ef6e17f3998d052c25dcf
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
     }
@@ -234,13 +245,27 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        else if (collision.gameObject.CompareTag("Hat"))
+        {
+            // show hat
+            for (int i = 0; i < hats.Length; i++ ){
+                if(hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType) {
+                    hats[i].SetActive(true); 
+                } else {
+                    hats[i].SetActive(false); 
+                }
+            }
+            collision.gameObject.GetComponent<HatBehavior>().activateHat();
+            Destroy(collision.gameObject);
+        }
+
     }
 
     public void AnimateBar()
     {
         if (!canFire)
         {
-            LeanTween.scaleX(bar, 1, time).setOnComplete(FireEnable);
+            LeanTween.scaleX(bar, 1, pushTime).setOnComplete(FireEnable);
             //watched this tutorial for the bar timer: https://www.youtube.com/watch?v=z7bR_xYcopM
 
         }
@@ -251,10 +276,10 @@ public class PlayerMovement : MonoBehaviour
     {
         
         //reset values
-        if(gameObject.transform.localScale.x != 0.4f)
+        if(gameObject.transform.localScale.x != objectScale)
         {
             col.radius = 1;
-            gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            gameObject.transform.localScale = new Vector3(objectScale, objectScale, objectScale);
             gameObject.transform.localRotation = Quaternion.identity;
             body.velocity = Vector3.zero;
             body.angularVelocity = 0f;
@@ -278,7 +303,7 @@ public class PlayerMovement : MonoBehaviour
         canFire = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
         //does this work?
        // Debug.Log("Collision with Wall WORKS");
@@ -287,6 +312,6 @@ public class PlayerMovement : MonoBehaviour
           //  Debug.Log("PLEASE WORK");
             body.velocity = Vector3.zero; 
         }
-    }
+    }*/
 
 }

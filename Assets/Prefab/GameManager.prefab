@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6326189893577954598
+--- !u!1 &8438011278380307642
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6326189893577954596}
-  - component: {fileID: 6326189893577954597}
+  - component: {fileID: 1999268830777439654}
+  - component: {fileID: 448970656294103887}
+  - component: {fileID: 1110682710433012121}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -17,31 +18,58 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6326189893577954596
+--- !u!4 &1999268830777439654
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6326189893577954598}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.021411315, y: -0.08666576, z: -3.4381042}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 8438011278380307642}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 432.47684, y: 256.40628, z: -3.71745}
+  m_LocalScale: {x: 1.08125, y: 1.08125, z: 1.08125}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6326189893577954597
+--- !u!114 &448970656294103887
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6326189893577954598}
+  m_GameObject: {fileID: 8438011278380307642}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42037e8a466ea214b8d9010e134bb94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1446466881082535770, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
-  enemyTimerRate: 2
+  enemyTimerRate: 1
+  Enemy:
+  - Enemy
+  - Enemy2
+  - Enemy2
+  scoreText: {fileID: 0}
+  player: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+--- !u!114 &1110682710433012121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8438011278380307642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c0a5ec0b14e78498b6ce2aa66708cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Enemy
+    prefab: {fileID: 0}
+    size: 35
+  - tag: Enemy2
+    prefab: {fileID: 0}
+    size: 35
+  - tag: Enemy3
+    prefab: {fileID: 0}
+    size: 35
