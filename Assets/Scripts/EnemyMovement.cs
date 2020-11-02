@@ -35,10 +35,10 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("collision works");
+        //Debug.Log("collision works");
         if (collision.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("wall detected");
+           // Debug.Log("wall detected");
             forward *= -1;
         }
 
@@ -47,7 +47,7 @@ public class EnemyMovement : MonoBehaviour
         {
             
             // delete self
-            Debug.Log("hit");
+           // Debug.Log("hit");
             GameObject spawnedfx = Instantiate(vfx2, transform.position, Quaternion.identity) as GameObject;
             forward *= -1;
             hit.Play();

@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DentedPixel;
 
+enum MoveState
+{
+    Idle = 0,
+    Discrete,
+    Unlocked
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     //Based off of https://www.youtube.com/watch?v=G4aAUodsU3o
@@ -25,16 +32,19 @@ public class PlayerMovement : MonoBehaviour
     //for collision
 
     //timer
+    [Header("Timer")]
     public GameObject bar;
     public float time = 2f;
     public bool canFire = false;
 
     //killbar
+    [Header("Killbar")]
     public GameObject killBar;
     public float killTime = 5f;
     //public bool canKill = false;
 
     //continous move
+    [Header("Continuous Move")]
     public bool discreteMove = true;
     float horizontal;
     float vertical;
@@ -43,26 +53,42 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D body;
     CircleCollider2D col;
 
+    [Header("Components")]
     //slowing enemies down in continuous move
     public EnemyMovement enemy;
     public AudioSource audio;
     public AudioSource powerup;
 
 
+    private MoveState _moveState = MoveState.Idle;
+    private Vector2 _moveInput;
+    private Grid _board;
+
+    [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
+
     // Start is called before the first frame update
     void Start()
     {
         CanMove = true;
         AnimateBar();
-        AnimateKillBar();
         body = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
 
+
+        _board = GameManager.instance.GetGrid;
+        _board.SetPos(currPos, (int) ObjectTypes.Player);
+        transform.position = _board.GetPosition(currPos, Vector2.zero);
+
+        AnimateKillBar();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_moveState != MoveState.Idle)
+        {
+
+        }
         if (moving)
         {
             if (Vector3.Distance(startPosition, transform.position) > 1f) //snap to the targetPosition at a certain frame
@@ -78,76 +104,21 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
         if (discreteMove)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            Vector2Int moveDir = Vector2Int.zero;
+            if      (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))      moveDir = Vector2Int.down;
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))    moveDir = Vector2Int.up;
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))    moveDir = Vector2Int.left;
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))   moveDir = Vector2Int.right;
+
+            if (CanMove && moveDir != Vector2Int.zero && IsTileEmpty(moveDir))
             {
-                if (IsTileEmpty(Vector3.up, 1f) && CanMove == true)
-                {
-                    targetPosition = transform.position + (Vector3.up);
-                    startPosition = transform.position;
-                    moving = true;
-                    //StartCoroutine(MoveDelay());
-
-                }
-
-            }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if (IsTileEmpty(Vector3.down, 1f) && CanMove == true)
-                {
-
-                    targetPosition = transform.position + (Vector3.down);
-                    startPosition = transform.position;
-                    moving = true;
-                    //StartCoroutine(MoveDelay());
-                }
-
-
-            }
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                if (IsTileEmpty(Vector3.left, 1f) && CanMove == true)
-                {
-                    if (transform.localScale.x < 0)
-                    {
-                        Vector3 temp = transform.localScale;
-                        temp.x *= -1;
-                        transform.localScale = temp;
-                    }
-                    targetPosition = transform.position + (Vector3.left);
-                    startPosition = transform.position;
-                    moving = true;
-                    //StartCoroutine(MoveDelay());
-                    //gameObject.transform.localScale = new Vector3(1, 1);
-
-
-
-                }
-
-
-            }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (IsTileEmpty(Vector3.right, 1f) && CanMove == true)
-                {
-                    if (transform.localScale.x > 0)
-                    {
-                        Vector3 temp = transform.localScale;
-                        temp.x *= -1;
-                        transform.localScale = temp;
-                    }
-                    targetPosition = transform.position + (Vector3.right);
-                    startPosition = transform.position;
-                    moving = true;
-                    //StartCoroutine(MoveDelay());
-                    //gameObject.transform.localScale = new Vector3(-1, 1);
-
-                }
-
-
-
+                _board.MoveItem(currPos, currPos + moveDir);
+                currPos = currPos + moveDir;
+                startPosition = transform.position;
+                targetPosition = _board.GetPosition(currPos, Vector2.zero);
+                moving = true;
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && canFire == true)
@@ -160,10 +131,17 @@ public class PlayerMovement : MonoBehaviour
                 bar.transform.localScale = new Vector3(0, 1, 1); //resets the timer bar
                 AnimateBar();
             }
-        }
 
+            //        if (transform.localScale.x < 0)
+            //        {
+            //            Vector3 temp = transform.localScale;
+            //            temp.x *= -1;
+            //            transform.localScale = temp;
+            //        }
+        }
         else
         {
+            _moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             //continous move
             horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
             vertical = Input.GetAxisRaw("Vertical"); // -1 is down
@@ -181,42 +159,39 @@ public class PlayerMovement : MonoBehaviour
         //continuous move
         if (!discreteMove)
         {
-            if (horizontal != 0 && vertical != 0) // Check for diagonal movement
+            if (_moveInput.x != 0 && _moveInput.y != 0)
             {
-                // limit movement speed diagonally, so you move at 70% speed
-                horizontal *= moveLimiter;
-                vertical *= moveLimiter;
+                _moveInput *= moveLimiter; // 70% speed
             }
-
-            body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+            body.velocity = _moveInput * runSpeed;
         }
     }
-    private bool IsTileEmpty(Vector3 direction, float distance)
+    private bool IsTileEmpty(Vector2Int direction)
     {
-        RaycastHit2D[] hits = new RaycastHit2D[10];
-        ContactFilter2D filter = new ContactFilter2D();
+        // makes sure the new position is within bounds
+        if (!_board.ValidPos(currPos + direction)) return false;
 
-        // visualise the direction we are testing for
-        //Debug.DrawRay(transform.position, r.direction, Color.blue, rayLength);
-        int numHits = col.Cast(direction, filter, hits, distance);
-        for(int i = 0; i < numHits; i++)
-        {
-            if (!hits[i].collider.isTrigger)
-            {
-                Debug.Log("hit wall");
-                return false;
-            }
-        }
-        /*if (hit.collider != null)
-        {
-            if (hit.collider.tag == "Wall" || hit.collider.tag == "Enemy")
-            {
-                Debug.Log("Hit wall");
-                return false;
-            }
-        }*/
+        // makes sure that the new space is empty
+        ObjectTypes type = (ObjectTypes) _board.AtPos(currPos + direction);
+        if (type == ObjectTypes.None) return true;
+        return false;
 
-        return true; //return true if it hits nothing
+
+        //RaycastHit2D[] hits = new RaycastHit2D[10];
+        //ContactFilter2D filter = new ContactFilter2D();
+
+        //// visualise the direction we are testing for
+        ////Debug.DrawRay(transform.position, r.direction, Color.blue, rayLength);
+        //int numHits = col.Cast(direction, filter, hits, distance);
+        //for(int i = 0; i < numHits; i++)
+        //{
+        //    if (!hits[i].collider.isTrigger)
+        //    {
+        //        Debug.Log("hit wall");
+        //        return false;
+        //    }
+        //}
+        //return true; //return true if it hits nothing
     }
 
     IEnumerator MoveDelay()
@@ -224,8 +199,6 @@ public class PlayerMovement : MonoBehaviour
         CanMove = false;
         yield return new WaitForSeconds(MoveDelayTime);
         CanMove = true;
-
-
     }
 
     void ContinuousMove()
@@ -238,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         //increase size of player
         gameObject.transform.localScale *= 2;
         enemy.moveSpeed = 0f;
-        Debug.Log("enemy movespeed " + enemy.moveSpeed);
+        //.Log("enemy movespeed " + enemy.moveSpeed);
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
     }
@@ -288,12 +261,17 @@ public class PlayerMovement : MonoBehaviour
             enemy.moveSpeed = 5f;
         }
         discreteMove = true;
+       // Debug.Log("HERE");
+
+        // snapping back to the grid
+        Vector2 test = _board.GetNearestPos(transform.position);
+        _board.MoveItem(currPos, new Vector2Int((int) test.x, (int) test.y));
+        currPos = new Vector2Int((int) test.x, (int) test.y);
+        transform.position = _board.GetPosition(currPos, Vector2.zero);
         LeanTween.scaleX(killBar, 1, killTime).setOnComplete(ContinuousMove);
         //watched this tutorial for the bar timer: https://www.youtube.com/watch?v=z7bR_xYcopM
-
-        
-
     }
+    
 
     void FireEnable()
     {
@@ -303,10 +281,10 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //does this work?
-        Debug.Log("Collision with Wall WORKS");
+       // Debug.Log("Collision with Wall WORKS");
         if (collision.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("PLEASE WORK");
+          //  Debug.Log("PLEASE WORK");
             body.velocity = Vector3.zero; 
         }
     }

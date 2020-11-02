@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+enum ObjectTypes
+{
+    None = 0,
+    Player = 1,
+    Enemy
+}
+
 public class GameManager : MonoBehaviour
 {
     float timer = 0f;
@@ -15,8 +22,19 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public PlayerMovement player;
 
-    
-    
+    private Grid gameBoard;
+    [SerializeField] private Vector2Int boardDimension = new Vector2Int(10, 10);
+    [SerializeField] private Vector2 startPos = new Vector2(-7, 4.6f);
+
+    public static GameManager instance;
+
+    public Grid GetGrid => gameBoard;
+
+    private void Awake()
+    {
+        instance = this;
+        gameBoard = new Grid(boardDimension, startPos);
+    }
     // Start is called before the first frame update
     void Start()
     {
