@@ -5,9 +5,10 @@ using UnityEngine;
 public class HatDropper : MonoBehaviour
 {
     public GameObject hatPrefab;
+    public PlayerMovement playerMovement;
     public GameObject [] hatSprites;
     // spawn locations between (-7, 6) for X and (-4.6, 4.6) for Y
-    private int spawnTime = 10;
+    private int spawnTime = 3;
     private int index = 0;
     void Start()
     {
@@ -26,6 +27,7 @@ public class HatDropper : MonoBehaviour
         // todo
         int count = 0;
         while(count<spawn) {
+            yield return new WaitForSeconds(spawnTime);
             if (index >= hatSprites.GetLength(0)) {
                 Shuffle();
                 index = 0;
@@ -35,6 +37,7 @@ public class HatDropper : MonoBehaviour
             // Debug.Log("Copying texture, " + hatSprites[index].GetComponent<Renderer>().material.mainTexture.name);
             newHat.GetComponent<SpriteRenderer>().sprite = hatSprites[index].GetComponent<SpriteRenderer>().sprite;
             newHat.GetComponent<HatBehavior>().hatType = hatSprites[index].GetComponent<HatBehavior>().hatType;
+            newHat.GetComponent<HatBehavior>().playerMovement = playerMovement;
             count ++; index++;
             yield return new WaitForSeconds(spawnTime);
         }

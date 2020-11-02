@@ -28,8 +28,8 @@ public class HatBehavior : MonoBehaviour
                 enemy.GetComponent<EnemyMovement>().moveSpeed /= 2.0f;
             }
         } else if (hatType == HatType.Flash) {
-            // increase speed
-            playerMovement.MoveDelayTime /= 2.0f;
+            // increase speed TODO doesn't work rn
+            playerMovement.MoveDelayTime /= 4.0f;
             
         } else if (hatType == HatType.Witch) {
             // speed up kill wait
