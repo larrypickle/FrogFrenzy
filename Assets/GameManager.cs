@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public PlayerMovement player;
 
-<<<<<<< HEAD
     private Grid gameBoard;
     [SerializeField] private Vector2Int boardDimension = new Vector2Int(10, 10);
     [SerializeField] private Vector2 startPos = new Vector2(-7, 4.6f);
@@ -37,12 +36,11 @@ public class GameManager : MonoBehaviour
         instance = this;
         gameBoard = new Grid(boardDimension, startPos);
     }
-=======
+
     //different enemy spawn bools
     private bool AppleEnemy = false;
     private bool SpinningEnemy = false;
     
->>>>>>> 81e24d40504fc3d3234ef6e17f3998d052c25dcf
     // Start is called before the first frame update
     void Start()
     {

@@ -45,12 +45,9 @@ public class PlayerMovement : MonoBehaviour
     //public bool canKill = false;
 
     //continous move
-<<<<<<< HEAD
     [Header("Continuous Move")]
     public bool discreteMove = true;
-=======
-    private bool discreteMove = true;
->>>>>>> 81e24d40504fc3d3234ef6e17f3998d052c25dcf
+    // private bool discreteMove = true;
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
@@ -216,13 +213,8 @@ public class PlayerMovement : MonoBehaviour
         col.radius += 1;
         //increase size of player
         gameObject.transform.localScale *= 2;
-<<<<<<< HEAD
-        enemy.moveSpeed = 0f;
         //.Log("enemy movespeed " + enemy.moveSpeed);
-=======
         //enemy.moveSpeed = 0f;
-        Debug.Log("enemy movespeed " + enemy.moveSpeed);
->>>>>>> 81e24d40504fc3d3234ef6e17f3998d052c25dcf
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
     }
