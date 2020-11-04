@@ -4053,6 +4053,10 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 375784866}
+    - target: {fileID: 448970656294103887, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: boardDimension.x
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[0].prefab
       value: 
