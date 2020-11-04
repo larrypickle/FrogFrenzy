@@ -60,12 +60,17 @@ public class PlayerMovement : MonoBehaviour
     public EnemyMovement enemy;
     public AudioSource audio;
     public AudioSource powerup;
+    public AudioSource hatDestroy;
 
     public GameObject [] hats; // for rendering the hat ONLY
 
     private MoveState _moveState = MoveState.Idle;
     private Vector2 _moveInput;
     private Grid _board;
+
+    [Header("PowerUp Specifics")]
+    //powerups
+    public float pushSize = 1;
 
     [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
 
@@ -148,7 +153,9 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && canFire == true)
             {
                 // attack
+                
                 attackObj = Instantiate(attack, gameObject.transform.position, Quaternion.identity);
+                attackObj.transform.localScale *= pushSize;
                 //timer = 3.0f;
                 Destroy(attackObj, attackLength);
                 canFire = false;
@@ -229,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         //increase size of collider
         col.radius += 1;
         //increase size of player
-        gameObject.transform.localScale *= 2;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         //.Log("enemy movespeed " + enemy.moveSpeed);
         //enemy.moveSpeed = 0f;
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
@@ -256,16 +263,32 @@ public class PlayerMovement : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Hat"))
         {
-            // show hat
-            for (int i = 0; i < hats.Length; i++ ){
-                if(hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType) {
-                    hats[i].SetActive(true); 
-                } else {
-                    hats[i].SetActive(false); 
-                }
+            if (!discreteMove)
+            {
+                Destroy(collision.gameObject);
+                hatDestroy.Play();
             }
-            collision.gameObject.GetComponent<HatBehavior>().activateHat();
-            Destroy(collision.gameObject);
+            else if(discreteMove)
+            {
+                powerup.pitch = Random.Range(0.7f, 1.3f);
+                powerup.Play();
+                powerup.pitch = 1;
+                // show hat
+                for (int i = 0; i < hats.Length; i++)
+                {
+                    if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType)
+                    {
+                        hats[i].SetActive(true);
+                    }
+                    else
+                    {
+                        hats[i].SetActive(false);
+                    }
+                }
+                collision.gameObject.GetComponent<HatBehavior>().activateHat();
+                Destroy(collision.gameObject);
+            }
+            
         }
 
     }
@@ -323,4 +346,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }*/
 
+    public void Shrink()
+    {
+        if (transform.localScale.x >= 0.1f)
+        {
+            objectScale -= 0.1f;
+            transform.localScale = new Vector3(objectScale, objectScale, objectScale);
+            col.radius /= 1.7f;
+        }
+    }
 }

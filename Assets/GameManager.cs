@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public Grid GetGrid => gameBoard;
 
+    private float SpawnRate;
+
     private void Awake()
     {
         instance = this;
@@ -58,7 +60,11 @@ public class GameManager : MonoBehaviour
             //GameObject enemyObj = Instantiate(enemy, new Vector3(0f, 0f), Quaternion.identity) as GameObject;
             if (SpinningEnemy)
             {
-                ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
+                if(Random.Range(0f, 1f) <= SpawnRate)
+                {
+                    ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
+
+                }
             }
 
             if (AppleEnemy)
@@ -86,15 +92,22 @@ public class GameManager : MonoBehaviour
             //player.moveSpeed += 1f;
             //player.time -= 0.2f;
             SpinningEnemy = true;
-        }
-        if (currScore > 20f)
-        {
-            enemyTimerRate = 0.6f;
+            SpawnRate = 0.3f;
         }
         if (currScore > 30f)
         {
+            enemyTimerRate = 0.6f;
+            SpawnRate += 0.3f;
+        }
+        if (currScore > 50f)
+        {
             enemyTimerRate = 0.45f;
-            AppleEnemy = true;
+            SpawnRate = 1;
+        }
+
+        if(currScore > 70f)
+        {
+            enemyTimerRate = 0.2f;
         }
     }
 }

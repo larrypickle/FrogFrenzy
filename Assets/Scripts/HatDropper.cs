@@ -8,10 +8,11 @@ public class HatDropper : MonoBehaviour
     public PlayerMovement playerMovement;
     public GameObject [] hatSprites;
     // spawn locations between (-7, 6) for X and (-4.6, 4.6) for Y
-    private int spawnTime = 3;
+    private float spawnTime = 3;
     private int index = 0;
     void Start()
     {
+        Shuffle();
         StartCoroutine(EnemyDrop(10));
     }
 
@@ -39,6 +40,7 @@ public class HatDropper : MonoBehaviour
             newHat.GetComponent<HatBehavior>().hatType = hatSprites[index].GetComponent<HatBehavior>().hatType;
             newHat.GetComponent<HatBehavior>().playerMovement = playerMovement;
             count ++; index++;
+            spawnTime -= 0.2f;
             yield return new WaitForSeconds(spawnTime);
         }
     }
