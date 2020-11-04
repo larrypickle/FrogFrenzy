@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     //slowing enemies down in continuous move
     public EnemyMovement enemy;
     public AudioSource audio;
+    public AudioSource hatPickup;
     public AudioSource powerup;
     public AudioSource hatDestroy;
 
@@ -271,7 +272,7 @@ public class PlayerMovement : MonoBehaviour
             else if(discreteMove)
             {
                 powerup.pitch = Random.Range(0.7f, 1.3f);
-                powerup.Play();
+                hatPickup.Play();
                 powerup.pitch = 1;
                 // show hat
                 for (int i = 0; i < hats.Length; i++)
