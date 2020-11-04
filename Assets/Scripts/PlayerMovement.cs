@@ -110,11 +110,27 @@ public class PlayerMovement : MonoBehaviour
         if (discreteMove)
         {
             Vector2Int moveDir = Vector2Int.zero;
-            if      (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))      moveDir = Vector2Int.down;
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))    moveDir = Vector2Int.up;
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))    moveDir = Vector2Int.left;
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))   moveDir = Vector2Int.right;
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) moveDir = Vector2Int.down;
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) moveDir = Vector2Int.up;
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                moveDir = Vector2Int.left;
+                /*if (transform.localScale.x < 0)
+                {
+                    Vector3 temp = transform.localScale;
+                    temp.x *= -1;
+                    transform.localScale = temp;
+                }*/
+                
 
+            }
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                moveDir = Vector2Int.right;
+               
+                
+            }
+            
             if (CanMove && moveDir != Vector2Int.zero && IsTileEmpty(moveDir))
             {
                 _board.MoveItem(currPos, currPos + moveDir);
@@ -122,6 +138,11 @@ public class PlayerMovement : MonoBehaviour
                 startPosition = transform.position;
                 targetPosition = _board.GetPosition(currPos, Vector2.zero);
                 moving = true;
+
+                //shmovement
+                Vector3 temp = transform.localScale;
+                temp.x *= -1;
+                transform.localScale = temp;
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && canFire == true)
@@ -135,12 +156,7 @@ public class PlayerMovement : MonoBehaviour
                 AnimateBar();
             }
 
-            //        if (transform.localScale.x < 0)
-            //        {
-            //            Vector3 temp = transform.localScale;
-            //            temp.x *= -1;
-            //            transform.localScale = temp;
-            //        }
+            
         }
         else
         {
@@ -167,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
                 _moveInput *= moveLimiter; // 70% speed
             }
             body.velocity = _moveInput * runSpeed;
+            transform.Rotate(Vector3.forward * runSpeed);
         }
     }
     private bool IsTileEmpty(Vector2Int direction)

@@ -46,9 +46,9 @@ public class EnemyMovement : MonoBehaviour
             // delete self
            // Debug.Log("hit");
             GameObject spawnedfx = Instantiate(vfx2, transform.position, Quaternion.identity) as GameObject;
-            // forward *= -1;
+            forward *= -1;
             Vector3 pos = gameObject.transform.position;
-            if ((pos.x < player.transform.position.x) && (forward.x > 0))
+            /*if ((pos.x < player.transform.position.x) && (forward.x > 0))
                 forward.x *= -1;
 
             if ((pos.x > player.transform.position.x) && (forward.x < 0))
@@ -58,7 +58,7 @@ public class EnemyMovement : MonoBehaviour
                 forward.y *= -1;
 
             if ((pos.y > player.transform.position.y) && (forward.y < 0))
-                forward.y *= -1;
+                forward.y *= -1;*/
             hit.Play();
             //gameManager.UpdateScore();
             //player.attackLength += lengthIncrease;
