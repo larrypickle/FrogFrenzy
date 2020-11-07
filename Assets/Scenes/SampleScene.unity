@@ -4349,6 +4349,18 @@ PrefabInstance:
       propertyPath: pools.Array.data[0].size
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[1].tag
+      value: Turtle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[2].tag
+      value: Apple
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[0].tag
+      value: Snake
+      objectReference: {fileID: 0}
     - target: {fileID: 1999268830777439654, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: m_LocalPosition.x
       value: 432.47684

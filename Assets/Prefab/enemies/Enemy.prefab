@@ -101,10 +101,10 @@ MonoBehaviour:
   canMove: 1
   vfx: {fileID: 149344, guid: 617378de28fbaa64c96485d5b0d9169b, type: 3}
   vfx2: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
-  gameManager: {fileID: 6349757811259941420, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
   player: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
   lengthIncrease: 0.25
   hit: {fileID: 7838565069297884542, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
+  spawnDuration: 1
 --- !u!50 &8903755648341212213
 Rigidbody2D:
   serializedVersion: 4

@@ -138,8 +138,8 @@ MonoBehaviour:
   canMove: 1
   vfx: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
   vfx2: {fileID: 149344, guid: 617378de28fbaa64c96485d5b0d9169b, type: 3}
-  gameManager: {fileID: 0}
   player: {fileID: 0}
   lengthIncrease: 0.25
   hit: {fileID: 0}
+  spawnDuration: 1
   rb: {fileID: 7715273998284671719}

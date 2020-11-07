@@ -89,6 +89,11 @@ public class PlayerMovement : MonoBehaviour
         transform.position = _board.GetPosition(currPos, Vector2.zero);
 
         AnimateKillBar();
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.SetPlayer(this);
+        }
     }
 
     // Update is called once per frame
@@ -238,8 +243,6 @@ public class PlayerMovement : MonoBehaviour
         col.radius += 1;
         //increase size of player
         gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-        //.Log("enemy movespeed " + enemy.moveSpeed);
-        //enemy.moveSpeed = 0f;
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
     }
@@ -247,8 +250,13 @@ public class PlayerMovement : MonoBehaviour
     //collide with enemy
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            if (collision.GetComponent<EnemyMovement>().Phase != EnemyPhase.Active)
+            {
+                return;
+            }
             if (discreteMove)
             {
                 SceneManager.LoadScene("SampleScene");

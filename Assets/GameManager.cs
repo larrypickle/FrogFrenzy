@@ -11,17 +11,22 @@ enum ObjectTypes
     Enemy
 }
 
+enum EnemyType
+{
+    Snake = 0,
+    Turtle,
+    Apple
+}
+
 public class GameManager : MonoBehaviour
 {
     float timer = 0f;
     //public GameObject enemy;
     public float enemyTimerRate = 2f;
-    public string[] Enemy;
     
 
     private float currScore = 0f;
     public TextMeshProUGUI scoreText;
-    public PlayerMovement player;
 
     private Grid gameBoard;
     [SerializeField] private Vector2Int boardDimension = new Vector2Int(10, 10);
@@ -32,6 +37,9 @@ public class GameManager : MonoBehaviour
     public Grid GetGrid => gameBoard;
 
     private float SpawnRate;
+
+
+    private PlayerMovement player;
 
     private void Awake()
     {
@@ -56,20 +64,22 @@ public class GameManager : MonoBehaviour
         //spawns more enemies over time
         if (timer <= 0)
         {
-            ObjectPooler.Instance.SpawnFromPool(Enemy[0], new Vector3(0, 0), Quaternion.identity);
+            Vector3 positionToSpawn = gameBoard.GetPosition(gameBoard.RandPos(Vector2Int.one), Vector2.zero);
+            ObjectPooler.Instance.SpawnFromPool(EnemyType.Snake.ToString(), positionToSpawn, Quaternion.identity);
             //GameObject enemyObj = Instantiate(enemy, new Vector3(0f, 0f), Quaternion.identity) as GameObject;
             if (SpinningEnemy)
             {
                 if(Random.Range(0f, 1f) <= SpawnRate)
                 {
-                    ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
-
+                    //ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
+                    ObjectPooler.Instance.SpawnFromPool(EnemyType.Turtle.ToString(), new Vector3(0f, 0f), Quaternion.identity);
                 }
             }
 
             if (AppleEnemy)
             {
-                ObjectPooler.Instance.SpawnFromPool(Enemy[2], new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
+                //ObjectPooler.Instance.SpawnFromPool(Enemy[2], new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
+                ObjectPooler.Instance.SpawnFromPool(EnemyType.Apple.ToString(), new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
             }
             
             timer = enemyTimerRate;
@@ -109,5 +119,10 @@ public class GameManager : MonoBehaviour
         {
             enemyTimerRate = 0.2f;
         }
+    }
+
+    public void SetPlayer(PlayerMovement player)
+    {
+        this.player = player;
     }
 }

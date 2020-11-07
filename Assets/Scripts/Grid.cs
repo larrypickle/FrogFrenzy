@@ -119,8 +119,8 @@ public class Grid
     //    return temp;
     //}
 
-    public Vector2Int RandPos()
+    public Vector2Int RandPos(Vector2Int offset)
     {
-        return new Vector2Int(Random.Range(0, gridDimension.x), Random.Range(0, gridDimension.y));
+        return new Vector2Int(Random.Range(0 + offset.x, gridDimension.x - offset.x), Random.Range(0 + offset.y, gridDimension.y - offset.y));
     }
 }
