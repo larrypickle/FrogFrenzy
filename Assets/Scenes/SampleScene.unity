@@ -2066,7 +2066,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Over
+  m_Text: 
 --- !u!222 &1410470511
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4734,6 +4734,10 @@ PrefabInstance:
       propertyPath: croak
       value: 
       objectReference: {fileID: 1475338263}
+    - target: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: gameOver
+      value: 
+      objectReference: {fileID: 1410470510}
     - target: {fileID: 7655590623207044627, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_Radius
       value: 0.94
