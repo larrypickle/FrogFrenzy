@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource hatPickup;
     public AudioSource powerup;
     public AudioSource hatDestroy;
+    public AudioSource croak;
 
     public GameObject [] hats; // for rendering the hat ONLY
 
@@ -159,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) && canFire == true)
             {
                 // attack
-                
+                croak.Play();
                 attackObj = Instantiate(attack, gameObject.transform.position, Quaternion.identity);
                 attackObj.transform.localScale *= pushSize;
                 //timer = 3.0f;

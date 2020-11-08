@@ -74,6 +74,7 @@ public class EnemyMovement : MonoBehaviour
             GameObject spawnedfx = Instantiate(vfx2, transform.position, Quaternion.identity) as GameObject;
             forward *= -1;
             Vector3 pos = gameObject.transform.position;
+            gameObject.transform.position += (forward/2);
             /*if ((pos.x < player.transform.position.x) && (forward.x > 0))
                 forward.x *= -1;
 
