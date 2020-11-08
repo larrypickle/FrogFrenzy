@@ -121,9 +121,9 @@ public class PlayerMovement : MonoBehaviour
         if (discreteMove)
         {
             Vector2Int moveDir = Vector2Int.zero;
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) moveDir = Vector2Int.down;
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) moveDir = Vector2Int.up;
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) moveDir = Vector2Int.down;
+            else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) moveDir = Vector2Int.up;
+            else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 moveDir = Vector2Int.left;
                 /*if (transform.localScale.x < 0)
@@ -135,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
                 
 
             }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 moveDir = Vector2Int.right;
                
@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = temp;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && canFire == true)
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) && canFire == true)
             {
                 // attack
                 
