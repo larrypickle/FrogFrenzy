@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
     public float pushSize = 1;
 
     [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
+    bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -240,7 +241,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void ContinuousMove()
     {
-        powerup.Play();
+        if (!dead)
+        {
+            powerup.Play();
+        }
         //activates continuous movement
         discreteMove = false;
         //increase size of collider
@@ -265,6 +269,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Object.Destroy(this.gameObject);
                 gameOver.text = "Game Over";
+                dead = true;
             }
             else
             {
@@ -320,7 +325,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void AnimateKillBar()
     {
-        
         //reset values
         if(gameObject.transform.localScale.x != objectScale)
         {
