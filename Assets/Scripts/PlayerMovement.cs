@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource powerup;
     public AudioSource hatDestroy;
     public AudioSource croak;
+    public Text gameOver;
 
     public GameObject [] hats; // for rendering the hat ONLY
 
@@ -95,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
         {
             GameManager.instance.SetPlayer(this);
         }
+
+        gameOver.text = "";
     }
 
     // Update is called once per frame
@@ -260,7 +263,8 @@ public class PlayerMovement : MonoBehaviour
             }
             if (discreteMove)
             {
-                SceneManager.LoadScene("SampleScene");
+                Object.Destroy(this.gameObject);
+                gameOver.text = "Game Over";
             }
             else
             {
