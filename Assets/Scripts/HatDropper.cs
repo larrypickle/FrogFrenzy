@@ -12,8 +12,11 @@ public class HatDropper : MonoBehaviour
     private int index = 0;
     void Start()
     {
+        Vector3 loc = new Vector3(-5.88f, 3.91f, 0);
+        GetHat(loc);
+
         Shuffle();
-        StartCoroutine(EnemyDrop(10));
+        StartCoroutine(HatDrop(10));
     }
 
     void Shuffle () {
@@ -24,7 +27,15 @@ public class HatDropper : MonoBehaviour
             hatSprites[randomIndex] = temp[0];
         }
     }
-    IEnumerator EnemyDrop(int spawn) {
+    void GetHat(Vector3 loc) {
+        GameObject newHat = Instantiate(hatPrefab, loc, Quaternion.identity);
+        // Debug.Log("Copying texture, " + hatSprites[index].GetComponent<Renderer>().material.mainTexture.name);
+        newHat.GetComponent<SpriteRenderer>().sprite = hatSprites[index].GetComponent<SpriteRenderer>().sprite;
+        newHat.GetComponent<HatBehavior>().hatType = hatSprites[index].GetComponent<HatBehavior>().hatType;
+        newHat.GetComponent<HatBehavior>().playerMovement = playerMovement;
+        index++;
+    }
+    IEnumerator HatDrop(int spawn) {
         // todo
         int count = 0;
         while(count<spawn) {
@@ -34,13 +45,8 @@ public class HatDropper : MonoBehaviour
                 index = 0;
             }
             Vector3 loc = new Vector3(Random.Range(-7, 6), Random.Range(-4, 4) + 0.6f, 0);
-            GameObject newHat = Instantiate(hatPrefab, loc, Quaternion.identity);
-            // Debug.Log("Copying texture, " + hatSprites[index].GetComponent<Renderer>().material.mainTexture.name);
-            newHat.GetComponent<SpriteRenderer>().sprite = hatSprites[index].GetComponent<SpriteRenderer>().sprite;
-            newHat.GetComponent<HatBehavior>().hatType = hatSprites[index].GetComponent<HatBehavior>().hatType;
-            newHat.GetComponent<HatBehavior>().playerMovement = playerMovement;
-            count ++; index++;
-            spawnTime -= 0.2f;
+            GetHat(loc);
+            count ++; 
             yield return new WaitForSeconds(spawnTime);
         }
     }

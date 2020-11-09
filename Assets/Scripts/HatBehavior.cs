@@ -22,7 +22,7 @@ public class HatBehavior : MonoBehaviour
             // increase health
 
             //shrink player
-            playerMovement.Shrink();
+            // playerMovement.Shrink();
         } else if (hatType == HatType.Cowboy) {
             // halves existing enemy speed
             playerMovement.pushSize += 0.5f;

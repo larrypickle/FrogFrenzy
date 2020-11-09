@@ -66,6 +66,10 @@ public class PlayerMovement : MonoBehaviour
     public Text gameOver;
 
     public GameObject [] hats; // for rendering the hat ONLY
+    private float lostALifeTimer;
+    private float safeTime = 2.0f;
+    private Queue<GameObject> activeHatQueue = new Queue<GameObject>();
+    public int lives = 0;
 
     private MoveState _moveState = MoveState.Idle;
     private Vector2 _moveInput;
@@ -97,13 +101,17 @@ public class PlayerMovement : MonoBehaviour
         {
             GameManager.instance.SetPlayer(this);
         }
-
+        lostALifeTimer = 0;
         gameOver.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (lostALifeTimer > 0) {
+            lostALifeTimer -= Time.deltaTime;
+        }
+
         if (_moveState != MoveState.Idle)
         {
 
@@ -254,6 +262,31 @@ public class PlayerMovement : MonoBehaviour
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
 
     }
+
+    private IEnumerator playerHitFlashRed() {
+        SpriteRenderer toFlash = gameObject.GetComponent<SpriteRenderer>();
+        float flashingFor = 0;
+        float flashSpeed = 0.1f;
+        float flashTime = 1.0f;
+        var flashColor = Color.red;
+        var newColor = flashColor;
+        var originalColor = Color.white;
+        while(flashingFor < flashTime)
+        {
+            toFlash.color = newColor;
+            flashingFor += Time.deltaTime;
+            yield return new WaitForSeconds(flashSpeed);
+            flashingFor += flashSpeed;
+            if(newColor == flashColor)
+            {
+                newColor = originalColor;
+            }
+            else
+            {
+                newColor = flashColor;
+            }
+        }
+    }
     
     //collide with enemy
     private void OnTriggerEnter2D(Collider2D collision)
@@ -267,9 +300,19 @@ public class PlayerMovement : MonoBehaviour
             }
             if (discreteMove)
             {
-                Object.Destroy(this.gameObject);
-                gameOver.text = "Game Over";
-                dead = true;
+                if (lives <= 0) {
+                    // SceneManager.LoadScene("SampleScene");
+                    Object.Destroy(this.gameObject);
+                    gameOver.text = "Game Over";
+                    dead = true;
+                } else {
+                    if (lostALifeTimer <= 0) {
+                        StartCoroutine (playerHitFlashRed());
+                        lives--;
+                        removeAHat();
+                        lostALifeTimer = safeTime;
+                    }
+                }
             }
             else
             {
@@ -295,13 +338,16 @@ public class PlayerMovement : MonoBehaviour
                 // show hat
                 for (int i = 0; i < hats.Length; i++)
                 {
-                    if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType)
+                    if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType && !activeHatQueue.Contains(hats[i]))
                     {
-                        hats[i].SetActive(true);
-                    }
-                    else
-                    {
-                        hats[i].SetActive(false);
+                        addAHat(hats[i]);
+                        if(activeHatQueue.Count > 3) {
+                            // Debug.Log("REMOVING A HAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            // foreach(var id in activeHatQueue){
+                                // Debug.Log("Hat type: " + id.GetComponent<HatBehavior>().hatType);
+                            // }
+                            removeAHat();
+                        }
                     }
                 }
                 collision.gameObject.GetComponent<HatBehavior>().activateHat();
@@ -310,6 +356,23 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
+    }
+
+    void addAHat(GameObject hat) {
+        // Debug.Log(Time.time + " ADDING HAT. COUNT: " + activeHatQueue.Count + " HAT TYPE: " + hat.GetComponent<HatBehavior>().hatType);
+        // Vector3 temp = new Vector3(0, 0.2f * activeHatQueue.Count, 0);
+        // hat.transform.position += temp;
+        hat.SetActive(true);
+        activeHatQueue.Enqueue(hat);
+        lives ++;
+    }
+
+    void removeAHat() {
+        if (activeHatQueue.Count > 0) {
+            // Debug.Log("REMOVING HAT. COUNT: " + activeHatQueue.Count);
+            GameObject temp = activeHatQueue.Dequeue();
+            temp.SetActive(false);
+        }
     }
 
     public void AnimateBar()
