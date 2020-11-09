@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject [] hats; // only for rendering looks!
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
-    private float invincibilityTime = 3.0f;
+    private float invincibilityTime = 2.0f;
     private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
     public bool isSmallNurse = false;
@@ -271,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         SpriteRenderer toFlash = gameObject.GetComponent<SpriteRenderer>();
         float flashingFor = 0;
         float flashSpeed = 0.1f;
-        float flashTime = 1.0f;
+        float flashTime = invincibilityTime;
         var flashColor = Color.red;
         var newColor = flashColor;
         var originalColor = Color.white;
@@ -290,6 +290,7 @@ public class PlayerMovement : MonoBehaviour
                 newColor = flashColor;
             }
         }
+        toFlash.color = originalColor;
     }
 
     private IEnumerator hatGrowShrink(GameObject hat) {
@@ -322,14 +323,14 @@ public class PlayerMovement : MonoBehaviour
             }
             if (discreteMove)
             {
-                if (lives <= 0) {
-                    // SceneManager.LoadScene("SampleScene");
-                    Object.Destroy(this.gameObject);
-                    ouch.Play();
-                    gameOver.text = "Game Over";
-                    dead = true;
-                } else {
-                    if (lostALifeTimer <= 0) {
+                if (lostALifeTimer <= 0) { // no more invincibility
+                    if (lives <= 0) {
+                        // SceneManager.LoadScene("SampleScene");
+                        Object.Destroy(this.gameObject);
+                        ouch.Play();
+                        gameOver.text = "Game Over";
+                        dead = true;
+                    } else {
                         StartCoroutine (playerHitFlashRed());
                         ouch.Play();
                         lives--;
@@ -408,7 +409,7 @@ public class PlayerMovement : MonoBehaviour
     void removeAHat() {
         if (activeHatStack.Count > 0) {
             GameObject temp = activeHatStack.Pop();
-            Debug.Log(Time.time+"REMOVING HAT!!" + temp.GetComponent<HatBehavior>().hatType);
+            // Debug.Log(Time.time+" REMOVING HAT!!" + temp.GetComponent<HatBehavior>().hatType);
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
                 MoveDelayTime *= hatSpeedMultiplier;
                 if(fx != null)
@@ -482,8 +483,6 @@ public class PlayerMovement : MonoBehaviour
             enemy.moveSpeed = 5f;
         }
         discreteMove = true;
-       // Debug.Log("HERE");
-
         // snapping back to the grid
         Vector2 test = _board.GetNearestPos(transform.position);
         _board.MoveItem(currPos, new Vector2Int((int) test.x, (int) test.y));
