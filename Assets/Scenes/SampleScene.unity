@@ -164,11 +164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.96
+      value: -2.993
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00015609711
+      value: -0.041
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -208,15 +208,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.4133
+      value: 1.3750724
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.4133
+      value: 1.3750724
       objectReference: {fileID: 0}
     - target: {fileID: 7557080889127063036, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.4133
+      value: 1.3750724
       objectReference: {fileID: 0}
     - target: {fileID: 8295725688257886682, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
       propertyPath: m_Sprite
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 69178346}
   - component: {fileID: 69178347}
   - component: {fileID: 69178348}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurse_hat
   m_TagString: Hat
   m_Icon: {fileID: 0}
@@ -631,7 +631,7 @@ GameObject:
   - component: {fileID: 152142779}
   - component: {fileID: 152142780}
   - component: {fileID: 152142781}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: flash_hat
   m_TagString: Hat
   m_Icon: {fileID: 0}
@@ -988,7 +988,7 @@ PrefabInstance:
       objectReference: {fileID: 494844326}
     - target: {fileID: 5630070957157586446, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.94
+      value: -5.96
       objectReference: {fileID: 0}
     - target: {fileID: 5630070957157586446, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1030,6 +1030,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5630070957157586446, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.059845
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630070957157586446, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.059845
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630070957157586446, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.059845
+      objectReference: {fileID: 0}
     - target: {fileID: 5630070957157586447, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
       propertyPath: m_Color.r
       value: 1
@@ -1042,6 +1054,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5630070957157586447, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 94e70d413587cfd45ad01d56583b8352, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
 --- !u!114 &494844326 stripped
@@ -1638,7 +1654,7 @@ GameObject:
   - component: {fileID: 747678446}
   - component: {fileID: 747678447}
   - component: {fileID: 747678448}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: winter_hat
   m_TagString: Hat
   m_Icon: {fileID: 0}
@@ -1851,7 +1867,7 @@ GameObject:
   - component: {fileID: 825922181}
   - component: {fileID: 825922182}
   - component: {fileID: 825922183}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: cowboy
   m_TagString: Hat
   m_Icon: {fileID: 0}
@@ -4180,7 +4196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4527,7 +4543,7 @@ GameObject:
   - component: {fileID: 1933060004}
   - component: {fileID: 1933060005}
   - component: {fileID: 1933060006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: witch_hat
   m_TagString: Hat
   m_Icon: {fileID: 0}
@@ -4717,7 +4733,7 @@ PrefabInstance:
       objectReference: {fileID: 7715273998284671716, guid: 6b70f46924b8250428c62f014f0dcc78, type: 3}
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[0].size
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[1].size
@@ -4999,7 +5015,7 @@ PrefabInstance:
       objectReference: {fileID: 136554313}
     - target: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: pushTime
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: hatPickup
@@ -5021,6 +5037,10 @@ PrefabInstance:
       propertyPath: MoveDelayTime
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: fire
+      value: 
+      objectReference: {fileID: 100000, guid: 756d99540142b5e4a8d174e18a6310d9, type: 3}
     - target: {fileID: 7655590623207044627, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_Radius
       value: 0.94
@@ -5108,6 +5128,14 @@ PrefabInstance:
     - target: {fileID: 7655590623207044631, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655590623207044631, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655590623207044631, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7655590623207044625, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}

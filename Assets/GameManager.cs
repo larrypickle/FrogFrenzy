@@ -102,22 +102,39 @@ public class GameManager : MonoBehaviour
             //player.moveSpeed += 1f;
             //player.time -= 0.2f;
             SpinningEnemy = true;
-            SpawnRate = 0.3f;
+            SpawnRate = 0.1f;
         }
         if (currScore > 30f)
         {
-            enemyTimerRate = 0.6f;
-            SpawnRate += 0.3f;
+            enemyTimerRate = 0.7f;
+            SpawnRate += 0.1f;
         }
         if (currScore > 50f)
         {
-            enemyTimerRate = 0.45f;
-            SpawnRate = 1;
+            enemyTimerRate = 0.6f;
+            SpawnRate += 0.1f;
         }
 
         if(currScore > 70f)
         {
+            enemyTimerRate = 0.5f;
+            SpawnRate += 0.15f;
+        }
+        if (currScore > 100f)
+        {
+            enemyTimerRate = 0.4f;
+            SpawnRate += 0.15f;
+        }
+        if (currScore > 150f)
+        {
+            enemyTimerRate = 0.3f;
+            SpawnRate += 0.15f;
+
+        }
+        if (currScore > 200)
+        {
             enemyTimerRate = 0.2f;
+            SpawnRate += 0.15f;
         }
     }
 

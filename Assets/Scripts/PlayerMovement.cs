@@ -27,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject attack;
     GameObject attackObj;
     public float attackLength = 0.25f;
-    public float objectScale = 0.3f;
+    public float OGObjectScale = 0.3f;
+    public float currentObjectScale;
     public GameObject vfx;
 
     //for collision
@@ -53,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     float moveLimiter = 0.7f;
     public float runSpeed = 20.0f;
     Rigidbody2D body;
-    CircleCollider2D col;
+    public CircleCollider2D col;
 
     [Header("Components")]
     //slowing enemies down in continuous move
@@ -66,12 +67,15 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource ouch;
     public Text gameOver;
 
-    public GameObject [] hats; // for rendering the hat ONLY
+    // hats
+    public GameObject [] hats; // only for rendering looks!
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
     private float invincibilityTime = 3.0f;
     private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
+    public bool isSmallNurse = false;
+    private float ogEnemyMoveSpeed;
 
     private MoveState _moveState = MoveState.Idle;
     private Vector2 _moveInput;
@@ -80,6 +84,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("PowerUp Specifics")]
     //powerups
     public float pushSize = 1;
+    public GameObject fire;
+    public GameObject fx;
 
     [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
     bool dead = false;
@@ -87,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentObjectScale = OGObjectScale;
+        ogEnemyMoveSpeed = enemy.GetComponent<EnemyMovement>().moveSpeed;
         CanMove = true;
         AnimateBar();
         body = GetComponent<Rigidbody2D>();
@@ -219,8 +227,6 @@ public class PlayerMovement : MonoBehaviour
         ObjectTypes type = (ObjectTypes) _board.AtPos(currPos + direction);
         if (type == ObjectTypes.None) return true;
         return false;
-
-
         //RaycastHit2D[] hits = new RaycastHit2D[10];
         //ContactFilter2D filter = new ContactFilter2D();
 
@@ -256,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
         //increase size of collider
         col.radius += 1;
         //increase size of player
+        killBar.GetComponent<Image>().color = Color.yellow;
         gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
     }
@@ -358,46 +365,98 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType && !activeHatStack.Contains(hats[i]))
                     {
-                        addAHat(hats[i]);
-                        if(activeHatStack.Count > 3) {
-                            // Debug.Log("REMOVING A HAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                            // foreach(var id in activeHatStack){
-                                // Debug.Log("Hat type: " + id.GetComponent<HatBehavior>().hatType);
-                            // }
+                        if(activeHatStack.Count >= 3) {
                             removeAHat();
                         }
+                        collision.gameObject.GetComponent<HatBehavior>().activateHat();
+                        addAHat(hats[i]);
                     }
                 }
-                collision.gameObject.GetComponent<HatBehavior>().activateHat();
+                // collision.gameObject.GetComponent<HatBehavior>().activateHat();
                 Destroy(collision.gameObject);
             }   
         }
     }
 
     void addAHat(GameObject hat) {
-        // Debug.Log(Time.time + " ADDING HAT. COUNT: " + activeHatStack.Count + " HAT TYPE: " + hat.GetComponent<HatBehavior>().hatType);
-        // Vector3 temp = new Vector3(0, 0.2f * activeHatStack.Count, 0);
-        // hat.transform.position += temp;
         Vector3 pos = hat.transform.position;
-        pos.y += 0.2f*activeHatStack.Count;
         GameObject newHat = Instantiate(hat, pos, Quaternion.identity);
-        newHat.transform.SetParent(transform);
-        newHat.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        newHat.GetComponent<SpriteRenderer>().sortingOrder = 40 + activeHatStack.Count;
         StartCoroutine(hatGrowShrink(newHat));
-        newHat.SetActive(true);
+        
+        newHat.transform.SetParent(transform);
+        newHat.GetComponent<SpriteRenderer>().sortingOrder = 40 + activeHatStack.Count;
+        newHat.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        // adjust hat height on frog
+        pos.y += 0.1f*activeHatStack.Count;
+        newHat.transform.position = pos;
+
         activeHatStack.Push(newHat);
+        newHat.SetActive(true);
+        if (hat.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Cowboy) {
+            // demo the push
+            // attack
+                croak.Play();
+                attackObj = Instantiate(attack, gameObject.transform.position, Quaternion.identity);
+                attackObj.transform.localScale *= pushSize;
+                //timer = 3.0f;
+                Destroy(attackObj, attackLength);
+        }
+
         lives ++;
     }
 
     void removeAHat() {
         if (activeHatStack.Count > 0) {
             GameObject temp = activeHatStack.Pop();
+            Debug.Log(Time.time+"REMOVING HAT!!" + temp.GetComponent<HatBehavior>().hatType);
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
                 MoveDelayTime *= hatSpeedMultiplier;
+                if(fx != null)
+                {
+                    Destroy(fx);
+                }
+                runSpeed -= 10f;
+            }
+            if(temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Winter)
+            {
+                bar.GetComponent<Image>().color = Color.red;
+                pushTime *= 2f;
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Witch)
+            {
+                //blue color is reset in continuous move
+                killTime -= 3.0f;
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Cowboy)
+            {
+                pushSize -= 1f;
+                attack.LeanColor(Color.black, 0.1f);
+                attack.LeanAlpha(0.8f, 0.1f);
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse)
+            {
+                IEnumerator enumerator = activeHatStack.GetEnumerator(); 
+                bool stillNurse = false;
+                while (enumerator.MoveNext()) { 
+                    GameObject current = (GameObject)enumerator.Current;
+                    if (current.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse) {
+                        stillNurse = true;
+                    }
+                } 
+                if (!stillNurse) {
+                    isSmallNurse = false;
+                    currentObjectScale = OGObjectScale;
+                    transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
+                    col.radius *= 1.7f;
+
+                    // reset enemy move speed
+                    GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+                    foreach(GameObject enemy in allEnemies) {
+                        enemy.GetComponent<EnemyMovement>().moveSpeed = ogEnemyMoveSpeed;
+                    }
+                }
             }
             Destroy(temp);
-            // temp.SetActive(false);
         }
     }
 
@@ -413,10 +472,10 @@ public class PlayerMovement : MonoBehaviour
     public void AnimateKillBar()
     {
         //reset values
-        if(gameObject.transform.localScale.x != objectScale)
+        if(gameObject.transform.localScale.x != currentObjectScale)
         {
             col.radius = 1;
-            gameObject.transform.localScale = new Vector3(objectScale, objectScale, objectScale);
+            gameObject.transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
             gameObject.transform.localRotation = Quaternion.identity;
             body.velocity = Vector3.zero;
             body.angularVelocity = 0f;
@@ -451,12 +510,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }*/
 
-    public void Shrink()
+    public void Shrink() // not used currently
     {
         if (transform.localScale.x >= 0.1f)
         {
-            objectScale -= 0.1f;
-            transform.localScale = new Vector3(objectScale, objectScale, objectScale);
+            currentObjectScale = OGObjectScale - 0.1f;
+            transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
             col.radius /= 1.7f;
         }
     }
