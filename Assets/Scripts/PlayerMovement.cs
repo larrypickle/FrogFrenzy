@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     public Text gameOver;
 
     public GameObject [] hats; // for rendering the hat ONLY
+    public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
     private float invincibilityTime = 2.0f;
     private Queue<GameObject> activeHatQueue = new Queue<GameObject>();
@@ -362,8 +363,10 @@ public class PlayerMovement : MonoBehaviour
 
     void removeAHat() {
         if (activeHatQueue.Count > 0) {
-            // Debug.Log("REMOVING HAT. COUNT: " + activeHatQueue.Count);
             GameObject temp = activeHatQueue.Dequeue();
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
+                playerMovement.MoveDelayTime *= hatSpeedMultiplier;
+            }
             temp.SetActive(false);
         }
     }
@@ -374,7 +377,6 @@ public class PlayerMovement : MonoBehaviour
         {
             LeanTween.scaleX(bar, 1, pushTime).setOnComplete(FireEnable);
             //watched this tutorial for the bar timer: https://www.youtube.com/watch?v=z7bR_xYcopM
-
         }
     }
 

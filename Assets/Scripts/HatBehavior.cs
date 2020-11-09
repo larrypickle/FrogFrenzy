@@ -34,7 +34,7 @@ public class HatBehavior : MonoBehaviour
             }*/
         } else if (hatType == HatType.Flash) {
             // increase speed TODO doesn't work rn
-            playerMovement.MoveDelayTime /= 2.0f;
+            playerMovement.MoveDelayTime /= PlayerMovement.hatSpeedMultiplier;
             //halves existing enemy speed
             GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             Debug.Log(allEnemies.Length);
