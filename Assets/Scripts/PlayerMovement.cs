@@ -163,6 +163,8 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 temp = transform.localScale;
                 temp.x *= -1;
                 transform.localScale = temp;
+                //start coroutine movedelay!
+                StartCoroutine("MoveDelay");
             }
 
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) && canFire == true)
@@ -297,6 +299,7 @@ public class PlayerMovement : MonoBehaviour
                 if (lives <= 0) {
                     // SceneManager.LoadScene("SampleScene");
                     Object.Destroy(this.gameObject);
+                    ouch.Play();
                     gameOver.text = "Game Over";
                     dead = true;
                 } else {
@@ -308,6 +311,7 @@ public class PlayerMovement : MonoBehaviour
                         lostALifeTimer = invincibilityTime;
                     }
                 }
+                this.gameObject.transform.localRotation = Quaternion.identity;
             }
             else
             {

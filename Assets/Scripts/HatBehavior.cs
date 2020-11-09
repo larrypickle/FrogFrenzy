@@ -22,7 +22,7 @@ public class HatBehavior : MonoBehaviour
             // increase health
 
             //shrink player
-            // playerMovement.Shrink();
+            playerMovement.Shrink();
         } else if (hatType == HatType.Cowboy) {
             // halves existing enemy speed
             playerMovement.pushSize += 0.5f;
@@ -36,12 +36,12 @@ public class HatBehavior : MonoBehaviour
             // increase speed TODO doesn't work rn
             playerMovement.MoveDelayTime /= 2.0f;
             //halves existing enemy speed
-            GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+            /*GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             Debug.Log(allEnemies.Length);
             foreach (GameObject enemy in allEnemies)
             {
                 enemy.GetComponent<EnemyMovement>().moveSpeed /= 4.0f;
-            }
+            }*/
 
         } else if (hatType == HatType.Witch) {
             // speed up kill wait
