@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 0}
-  hatType: 4
+  hatType: 3
 --- !u!61 &387010776
 BoxCollider2D:
   m_ObjectHideFlags: 0
