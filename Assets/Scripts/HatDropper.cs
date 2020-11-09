@@ -48,6 +48,9 @@ public class HatDropper : MonoBehaviour
             Vector3 loc = new Vector3(Random.Range(-7, 6), Random.Range(-4, 4) + 0.6f, 0);
             GetHat(loc);
             count ++; 
+            if(spawnTime > 1.0f) {
+                spawnTime -= 0.1f;
+            }
             yield return new WaitForSeconds(spawnTime);
         }
     }

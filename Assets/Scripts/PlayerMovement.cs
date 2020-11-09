@@ -74,7 +74,12 @@ public class PlayerMovement : MonoBehaviour
     private float invincibilityTime = 2.0f;
     private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
-    public bool isSmallNurse = false;
+    public enum FrogSize { //tracks what level it is
+        regular,
+        small,
+        smallest
+    }
+    public FrogSize frogSize = FrogSize.regular;
     private float ogEnemyMoveSpeed;
 
     private MoveState _moveState = MoveState.Idle;
@@ -437,16 +442,24 @@ public class PlayerMovement : MonoBehaviour
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse)
             {
                 IEnumerator enumerator = activeHatStack.GetEnumerator(); 
-                bool stillNurse = false;
+                int numNurseHats = 0;
                 while (enumerator.MoveNext()) { 
                     GameObject current = (GameObject)enumerator.Current;
                     if (current.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse) {
-                        stillNurse = true;
+                        numNurseHats++;
                     }
                 } 
-                if (!stillNurse) {
-                    isSmallNurse = false;
-                    currentObjectScale = OGObjectScale;
+                if (numNurseHats < 2) {
+                    if(frogSize == FrogSize.smallest) {
+                        Debug.Log("Making small!");
+                        frogSize = FrogSize.small;
+                        currentObjectScale = OGObjectScale - 0.1f;
+                    } else if (frogSize == FrogSize.small) {
+                        Debug.Log("Making smallest!");
+                        frogSize = FrogSize.regular;
+                        currentObjectScale = OGObjectScale;
+                    }
+                    Debug.Log("CurrentObjectScale: " + currentObjectScale);
                     transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
                     col.radius *= 1.7f;
 
@@ -509,13 +522,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }*/
 
-    public void Shrink() // not used currently
-    {
-        if (transform.localScale.x >= 0.1f)
-        {
-            currentObjectScale = OGObjectScale - 0.1f;
-            transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
-            col.radius /= 1.7f;
-        }
-    }
+    // public void Shrink() // not used currently
+    // {
+    //     if (transform.localScale.x >= 0.1f)
+    //     {
+    //         currentObjectScale = OGObjectScale - 0.1f;
+    //         transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
+    //         col.radius /= 1.7f;
+    //     }
+    // }
 }

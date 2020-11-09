@@ -20,19 +20,24 @@ public class HatBehavior : MonoBehaviour
     public void activateHat()
     {
         if(hatType == HatType.Nurse) {
-            if(playerMovement.isSmallNurse) { // already small
+            if(playerMovement.frogSize == PlayerMovement.FrogSize.smallest) { // already 2x small
                 return;
             }
             GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-            Debug.Log(allEnemies.Length);
             foreach(GameObject enemy in allEnemies) {
                 enemy.GetComponent<EnemyMovement>().moveSpeed /= 4.0f;
             }
             //shrink player (BUGGY... maybe fixed?)
-            playerMovement.currentObjectScale = playerMovement.OGObjectScale - 0.1f;
+            // update frog size
+            if(playerMovement.frogSize == PlayerMovement.FrogSize.regular) {
+                playerMovement.frogSize = PlayerMovement.FrogSize.small;
+                playerMovement.currentObjectScale = playerMovement.OGObjectScale - 0.1f;
+            } else if (playerMovement.frogSize == PlayerMovement.FrogSize.small) {
+                playerMovement.frogSize = PlayerMovement.FrogSize.smallest;
+                playerMovement.currentObjectScale = playerMovement.OGObjectScale - 0.2f;
+            } 
             playerMovement.transform.localScale = new Vector3(playerMovement.currentObjectScale, playerMovement.currentObjectScale, playerMovement.currentObjectScale);
             playerMovement.col.radius /= 1.7f;
-            playerMovement.isSmallNurse = true;
             //playerMovement.Shrink();
         } else if (hatType == HatType.Cowboy) {
             // increases push size
