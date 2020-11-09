@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
     private float invincibilityTime = 3.0f;
-    private Queue<GameObject> activeHatQueue = new Queue<GameObject>();
+    private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
 
     private MoveState _moveState = MoveState.Idle;
@@ -356,12 +356,12 @@ public class PlayerMovement : MonoBehaviour
                 // show hat
                 for (int i = 0; i < hats.Length; i++)
                 {
-                    if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType && !activeHatQueue.Contains(hats[i]))
+                    if (hats[i].GetComponent<HatBehavior>().hatType == collision.gameObject.GetComponent<HatBehavior>().hatType && !activeHatStack.Contains(hats[i]))
                     {
                         addAHat(hats[i]);
-                        if(activeHatQueue.Count > 3) {
+                        if(activeHatStack.Count > 3) {
                             // Debug.Log("REMOVING A HAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                            // foreach(var id in activeHatQueue){
+                            // foreach(var id in activeHatStack){
                                 // Debug.Log("Hat type: " + id.GetComponent<HatBehavior>().hatType);
                             // }
                             removeAHat();
@@ -375,22 +375,29 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void addAHat(GameObject hat) {
-        // Debug.Log(Time.time + " ADDING HAT. COUNT: " + activeHatQueue.Count + " HAT TYPE: " + hat.GetComponent<HatBehavior>().hatType);
-        // Vector3 temp = new Vector3(0, 0.2f * activeHatQueue.Count, 0);
+        // Debug.Log(Time.time + " ADDING HAT. COUNT: " + activeHatStack.Count + " HAT TYPE: " + hat.GetComponent<HatBehavior>().hatType);
+        // Vector3 temp = new Vector3(0, 0.2f * activeHatStack.Count, 0);
         // hat.transform.position += temp;
-        StartCoroutine (hatGrowShrink(hat));
-        hat.SetActive(true);
-        activeHatQueue.Enqueue(hat);
+        Vector3 pos = hat.transform.position;
+        pos.y += 0.2f*activeHatStack.Count;
+        GameObject newHat = Instantiate(hat, pos, Quaternion.identity);
+        newHat.transform.SetParent(transform);
+        newHat.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        newHat.GetComponent<SpriteRenderer>().sortingOrder = 40 + activeHatStack.Count;
+        StartCoroutine(hatGrowShrink(newHat));
+        newHat.SetActive(true);
+        activeHatStack.Push(newHat);
         lives ++;
     }
 
     void removeAHat() {
-        if (activeHatQueue.Count > 0) {
-            GameObject temp = activeHatQueue.Dequeue();
+        if (activeHatStack.Count > 0) {
+            GameObject temp = activeHatStack.Pop();
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
                 MoveDelayTime *= hatSpeedMultiplier;
             }
-            temp.SetActive(false);
+            Destroy(temp);
+            // temp.SetActive(false);
         }
     }
 

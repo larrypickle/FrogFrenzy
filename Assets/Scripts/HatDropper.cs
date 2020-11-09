@@ -8,7 +8,7 @@ public class HatDropper : MonoBehaviour
     public PlayerMovement playerMovement;
     public GameObject [] hatSprites;
     // spawn locations between (-7, 6) for X and (-4.6, 4.6) for Y
-    private float spawnTime = 3;
+    private float spawnTime = 1;
     private int index = 0;
     void Start()
     {
