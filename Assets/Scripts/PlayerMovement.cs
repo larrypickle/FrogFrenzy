@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     float moveLimiter = 0.7f;
     public float runSpeed = 20.0f;
     Rigidbody2D body;
-    CircleCollider2D col;
+    public CircleCollider2D col;
 
     [Header("Components")]
     //slowing enemies down in continuous move
@@ -80,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("PowerUp Specifics")]
     //powerups
     public float pushSize = 1;
+    public GameObject fire;
+    public GameObject fx;
 
     [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
     bool dead = false;
@@ -256,6 +258,7 @@ public class PlayerMovement : MonoBehaviour
         //increase size of collider
         col.radius += 1;
         //increase size of player
+        killBar.GetComponent<Image>().color = Color.yellow;
         gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
     }
@@ -367,8 +370,37 @@ public class PlayerMovement : MonoBehaviour
     void removeAHat() {
         if (activeHatQueue.Count > 0) {
             GameObject temp = activeHatQueue.Dequeue();
+            //reset values
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
                 MoveDelayTime *= hatSpeedMultiplier;
+                if(fx != null)
+                {
+                    Destroy(fx);
+
+                }
+                runSpeed -= 10f;
+            }
+            if(temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Winter)
+            {
+                bar.GetComponent<Image>().color = Color.red;
+                pushTime *= 2f;
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Witch)
+            {
+                //blue color is reset in continuous move
+                killTime -= 3.0f;
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Cowboy)
+            {
+                pushSize -= 1f;
+                attack.LeanColor(Color.black, 0.1f);
+                attack.LeanAlpha(0.8f, 0.1f);
+            }
+            if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse)
+            {
+                objectScale += 0.1f;
+                transform.localScale = new Vector3(objectScale, objectScale, objectScale);
+                col.radius *= 1.7f;
             }
             temp.SetActive(false);
         }

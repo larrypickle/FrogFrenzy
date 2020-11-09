@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HatBehavior : MonoBehaviour
 {
@@ -24,34 +25,41 @@ public class HatBehavior : MonoBehaviour
             foreach(GameObject enemy in allEnemies) {
                 enemy.GetComponent<EnemyMovement>().moveSpeed /= 4.0f;
             }
-            //shrink player
-            playerMovement.Shrink();
+            //shrink player (BUGGY)
+            playerMovement.objectScale -= 0.1f;
+            playerMovement.transform.localScale = new Vector3(playerMovement.objectScale, 
+            playerMovement.objectScale, playerMovement.objectScale);
+            playerMovement.col.radius /= 1.7f;
+            //playerMovement.Shrink();
         } else if (hatType == HatType.Cowboy) {
-            // halves existing enemy speed
-            playerMovement.pushSize += 0.5f;
+            // increases push size
+            playerMovement.attack.LeanColor(Color.red, 0.1f);
+            playerMovement.attack.LeanAlpha(0.8f, 0.1f);
+            playerMovement.pushSize += 1f;
             
         } else if (hatType == HatType.Flash) {
-            // increase speed TODO doesn't work rn
+            // increase speed
             playerMovement.MoveDelayTime /= playerMovement.hatSpeedMultiplier;
-            //halves existing enemy speed
-            /*GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-            Debug.Log(allEnemies.Length);
-            foreach (GameObject enemy in allEnemies)
-            {
-                enemy.GetComponent<EnemyMovement>().moveSpeed /= 4.0f;
-            }*/
+            //instantiate fire effect
+            playerMovement.fx = Instantiate(playerMovement.fire, playerMovement.transform.position, playerMovement.transform.rotation);
+            playerMovement.fx.transform.parent = playerMovement.transform;
+            playerMovement.runSpeed += 10f;
 
         } else if (hatType == HatType.Witch) {
             // speed up kill wait
-            LeanTween.cancelAll();
-            playerMovement.killBar.LeanScaleX(1.0f, 1.0f).setOnComplete(playerMovement.ContinuousMove);            
-
-        } else if (hatType == HatType.Winter) {
-            // longer attack time
+            LeanTween.cancel(playerMovement.killBar);
+            playerMovement.killBar.LeanScaleX(1.0f, 1.0f).setOnComplete(playerMovement.ContinuousMove);
+            //LeanTween.color(playerMovement.killBar, Color.blue, 0.1f);
+            playerMovement.killBar.GetComponent<Image>().color = Color.blue;
             playerMovement.killTime += 3.0f;
+
+        }
+        else if (hatType == HatType.Winter) {
+            // longer attack time
             //faster push time
             if(playerMovement.pushTime >= 0.5f)
             {
+                playerMovement.bar.GetComponent<Image>().color = Color.blue;
                 playerMovement.pushTime /= 2f;
                 Debug.Log("pushtime " + playerMovement.pushTime);
             }
