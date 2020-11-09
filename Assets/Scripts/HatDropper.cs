@@ -13,7 +13,7 @@ public class HatDropper : MonoBehaviour
     void Start()
     {
         Shuffle();
-        Vector3 loc = new Vector3(5f, -3.3f, 0f);
+        Vector3 loc = new Vector3(-5f, 3.3f, 0f);
         GetHat(loc);
 
         Shuffle();

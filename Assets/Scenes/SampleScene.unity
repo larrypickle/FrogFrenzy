@@ -1974,7 +1974,7 @@ Transform:
   - {fileID: 190682798}
   - {fileID: 1429677384}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1037647768
 GameObject:
@@ -2539,7 +2539,7 @@ RectTransform:
   - {fileID: 6337181}
   - {fileID: 1410470509}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4769,7 +4769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1999268830777439654, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1999268830777439654, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4943,7 +4943,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7655590623207044624, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_BodyType
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655590623207044625, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7655590623207044626, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: hats.Array.size
@@ -5105,7 +5109,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7655590623207044625, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
 --- !u!1001 &7838565069104630477
 PrefabInstance:
@@ -5144,7 +5149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838565069297884537, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7838565069297884537, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

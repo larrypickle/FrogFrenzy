@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject [] hats; // for rendering the hat ONLY
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
-    private float invincibilityTime = 2.0f;
+    private float invincibilityTime = 3.0f;
     private Queue<GameObject> activeHatQueue = new Queue<GameObject>();
     public int lives = 0;
 
@@ -288,7 +288,6 @@ public class PlayerMovement : MonoBehaviour
     //collide with enemy
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.gameObject.CompareTag("Enemy"))
         {
             if (collision.GetComponent<EnemyMovement>().Phase != EnemyPhase.Active)
@@ -369,7 +368,7 @@ public class PlayerMovement : MonoBehaviour
         if (activeHatQueue.Count > 0) {
             GameObject temp = activeHatQueue.Dequeue();
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Flash) {
-                playerMovement.MoveDelayTime *= hatSpeedMultiplier;
+                MoveDelayTime *= hatSpeedMultiplier;
             }
             temp.SetActive(false);
         }
