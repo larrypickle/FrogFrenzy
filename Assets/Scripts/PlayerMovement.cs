@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource powerup;
     public AudioSource hatDestroy;
     public AudioSource croak;
+    public AudioSource ouch;
     public Text gameOver;
 
     public GameObject [] hats; // for rendering the hat ONLY
@@ -308,6 +309,7 @@ public class PlayerMovement : MonoBehaviour
                 } else {
                     if (lostALifeTimer <= 0) {
                         StartCoroutine (playerHitFlashRed());
+                        ouch.Play();
                         lives--;
                         removeAHat();
                         lostALifeTimer = safeTime;
