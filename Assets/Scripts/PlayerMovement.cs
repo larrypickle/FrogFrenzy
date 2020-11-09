@@ -284,6 +284,25 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator hatGrowShrink(GameObject hat) {
+        float growTime = 0.16f;
+        float shrinkTime = 0.16f;
+        float flashSpeed = 0.02f;
+
+        while(growTime > 0)
+        {
+            hat.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);            
+            yield return new WaitForSeconds(flashSpeed);
+            growTime -= flashSpeed;
+        }
+        while(shrinkTime > 0)
+        {
+            hat.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);            
+            yield return new WaitForSeconds(flashSpeed);
+            shrinkTime -= flashSpeed;
+        }
+    }
     
     //collide with enemy
     private void OnTriggerEnter2D(Collider2D collision)
@@ -359,6 +378,7 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log(Time.time + " ADDING HAT. COUNT: " + activeHatQueue.Count + " HAT TYPE: " + hat.GetComponent<HatBehavior>().hatType);
         // Vector3 temp = new Vector3(0, 0.2f * activeHatQueue.Count, 0);
         // hat.transform.position += temp;
+        StartCoroutine (hatGrowShrink(hat));
         hat.SetActive(true);
         activeHatQueue.Enqueue(hat);
         lives ++;
