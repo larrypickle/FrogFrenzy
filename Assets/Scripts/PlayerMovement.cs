@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject [] hats; // for rendering the hat ONLY
     private float lostALifeTimer;
-    private float safeTime = 2.0f;
+    private float invincibilityTime = 2.0f;
     private Queue<GameObject> activeHatQueue = new Queue<GameObject>();
     public int lives = 0;
 
@@ -90,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
         AnimateBar();
         body = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
-
 
         _board = GameManager.instance.GetGrid;
         _board.SetPos(currPos, (int) ObjectTypes.Player);
@@ -146,14 +145,10 @@ public class PlayerMovement : MonoBehaviour
                     temp.x *= -1;
                     transform.localScale = temp;
                 }*/
-                
-
             }
             else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 moveDir = Vector2Int.right;
-               
-                
             }
             
             if (CanMove && moveDir != Vector2Int.zero && IsTileEmpty(moveDir))
@@ -181,9 +176,7 @@ public class PlayerMovement : MonoBehaviour
                 canFire = false;
                 bar.transform.localScale = new Vector3(0, 1, 1); //resets the timer bar
                 AnimateBar();
-            }
-
-            
+            } 
         }
         else
         {
@@ -213,6 +206,7 @@ public class PlayerMovement : MonoBehaviour
             transform.Rotate(Vector3.forward * runSpeed);
         }
     }
+
     private bool IsTileEmpty(Vector2Int direction)
     {
         // makes sure the new position is within bounds
@@ -261,7 +255,6 @@ public class PlayerMovement : MonoBehaviour
         //increase size of player
         gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         LeanTween.scaleX(killBar, 0, 3f).setOnComplete(AnimateKillBar);
-
     }
 
     private IEnumerator playerHitFlashRed() {
@@ -312,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
                         ouch.Play();
                         lives--;
                         removeAHat();
-                        lostALifeTimer = safeTime;
+                        lostALifeTimer = invincibilityTime;
                     }
                 }
             }
@@ -354,10 +347,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 collision.gameObject.GetComponent<HatBehavior>().activateHat();
                 Destroy(collision.gameObject);
-            }
-            
+            }   
         }
-
     }
 
     void addAHat(GameObject hat) {
@@ -385,7 +376,6 @@ public class PlayerMovement : MonoBehaviour
             //watched this tutorial for the bar timer: https://www.youtube.com/watch?v=z7bR_xYcopM
 
         }
-
     }
 
     public void AnimateKillBar()
