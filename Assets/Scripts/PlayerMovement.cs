@@ -264,6 +264,7 @@ public class PlayerMovement : MonoBehaviour
         }
         //activates continuous movement
         discreteMove = false;
+        col.isTrigger = false;
         //increase size of collider
         col.radius += 1;
         //increase size of player
@@ -316,7 +317,17 @@ public class PlayerMovement : MonoBehaviour
             shrinkTime -= flashSpeed;
         }
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.SetActive(false);
+            enemy.Die(collision.gameObject.transform.position);
+            audio.pitch = Random.Range(0.7f, 1.1f);
+            audio.Play();
+        }
+    }
     //collide with enemy
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -419,8 +430,10 @@ public class PlayerMovement : MonoBehaviour
                 MoveDelayTime *= hatSpeedMultiplier;
                 if(fx != null)
                 {
+                    //remove fire doesnt work for some reason if u have 2 hats
                     Destroy(fx);
                 }
+                //Destroy(fx);
                 runSpeed -= 10f;
             }
             if(temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Winter)
@@ -438,6 +451,7 @@ public class PlayerMovement : MonoBehaviour
                 pushSize -= 1f;
                 attack.LeanColor(Color.black, 0.1f);
                 attack.LeanAlpha(0.8f, 0.1f);
+                
             }
             if (temp.GetComponent<HatBehavior>().hatType == HatBehavior.HatType.Nurse)
             {
@@ -489,6 +503,7 @@ public class PlayerMovement : MonoBehaviour
         if(gameObject.transform.localScale.x != currentObjectScale)
         {
             col.radius = 1;
+            col.isTrigger = true;
             gameObject.transform.localScale = new Vector3(currentObjectScale, currentObjectScale, currentObjectScale);
             gameObject.transform.localRotation = Quaternion.identity;
             body.velocity = Vector3.zero;

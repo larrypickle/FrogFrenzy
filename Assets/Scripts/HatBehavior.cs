@@ -48,10 +48,12 @@ public class HatBehavior : MonoBehaviour
         } else if (hatType == HatType.Flash) {
             // increase speed
             playerMovement.MoveDelayTime /= playerMovement.hatSpeedMultiplier;
+            playerMovement.runSpeed += 10f;
             //instantiate fire effect
+            
             playerMovement.fx = Instantiate(playerMovement.fire, playerMovement.transform.position, playerMovement.transform.rotation);
             playerMovement.fx.transform.parent = playerMovement.transform;
-            playerMovement.runSpeed += 10f;
+            
 
         } else if (hatType == HatType.Witch) {
             // speed up kill wait

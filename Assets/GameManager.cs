@@ -120,18 +120,18 @@ public class GameManager : MonoBehaviour
             enemyTimerRate = 0.5f;
             SpawnRate += 0.15f;
         }
-        if (currScore > 100f)
+        if (currScore > 150f)
         {
             enemyTimerRate = 0.4f;
             SpawnRate += 0.15f;
         }
-        if (currScore > 150f)
+        if (currScore > 300f)
         {
             enemyTimerRate = 0.3f;
             SpawnRate += 0.15f;
 
         }
-        if (currScore > 200)
+        if (currScore > 500)
         {
             enemyTimerRate = 0.2f;
             SpawnRate += 0.15f;

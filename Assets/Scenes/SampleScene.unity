@@ -234,6 +234,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8903755648341212213, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0d692353d1d90b43b43d630f8c7c8dc, type: 3}
 --- !u!1 &6337180
@@ -4726,7 +4730,7 @@ PrefabInstance:
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 5630070957157586441, guid: bb8863864ad9b204ea6c4511c605812f, type: 3}
+      objectReference: {fileID: 90093740}
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[2].prefab
       value: 
@@ -4960,6 +4964,10 @@ PrefabInstance:
     - target: {fileID: 7655590623207044624, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655590623207044624, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7655590623207044625, guid: 36187446e95513d4b8f25b04e961acb4, type: 3}
       propertyPath: m_Enabled
