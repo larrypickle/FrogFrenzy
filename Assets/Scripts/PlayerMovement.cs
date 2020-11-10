@@ -95,6 +95,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2Int currPos = new Vector2Int(0, 0);
     bool dead = false;
 
+    [Header("Game Over Screen")]
+    public GameObject replay;
+    public GameObject quit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,6 +121,9 @@ public class PlayerMovement : MonoBehaviour
         }
         lostALifeTimer = 0;
         gameOver.text = "";
+
+        replay.SetActive(false);
+        quit.SetActive(false);
     }
 
     // Update is called once per frame
@@ -345,6 +352,8 @@ public class PlayerMovement : MonoBehaviour
                         Object.Destroy(this.gameObject);
                         ouch.Play();
                         gameOver.text = "Game Over";
+                        replay.SetActive(true);
+                        quit.SetActive(true);
                         dead = true;
                     } else {
                         StartCoroutine (playerHitFlashRed());
