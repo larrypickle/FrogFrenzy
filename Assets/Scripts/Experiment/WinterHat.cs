@@ -27,11 +27,12 @@ public class WinterHat : Hat
     }
     public override void Attach(PlayerMovement player)
     {
-
+        base.Attach(player);
     }
 
     public override void Detach(PlayerMovement player)
     {
+        base.Detach(player);
         player.bar.GetComponent<Image>().color = Color.red;
         player.pushTime *= 2f;
     }

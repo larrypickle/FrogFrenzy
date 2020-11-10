@@ -62,28 +62,28 @@ public class GameManager : MonoBehaviour
     {
         timer -= Time.deltaTime;
         //spawns more enemies over time
-        if (timer <= 0)
-        {
-            Vector3 positionToSpawn = gameBoard.GetPosition(gameBoard.RandPos(Vector2Int.one), Vector2.zero);
-            ObjectPooler.Instance.SpawnFromPool(EnemyType.Snake.ToString(), positionToSpawn, Quaternion.identity);
-            //GameObject enemyObj = Instantiate(enemy, new Vector3(0f, 0f), Quaternion.identity) as GameObject;
-            if (SpinningEnemy)
-            {
-                if(Random.Range(0f, 1f) <= SpawnRate)
-                {
-                    //ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
-                    ObjectPooler.Instance.SpawnFromPool(EnemyType.Turtle.ToString(), new Vector3(0f, 0f), Quaternion.identity);
-                }
-            }
+        //if (timer <= 0)
+        //{
+        //    Vector3 positionToSpawn = gameBoard.GetPosition(gameBoard.RandPos(Vector2Int.one), Vector2.zero);
+        //    ObjectPooler.Instance.SpawnFromPool(EnemyType.Snake.ToString(), positionToSpawn, Quaternion.identity);
+        //    //GameObject enemyObj = Instantiate(enemy, new Vector3(0f, 0f), Quaternion.identity) as GameObject;
+        //    if (SpinningEnemy)
+        //    {
+        //        if(Random.Range(0f, 1f) <= SpawnRate)
+        //        {
+        //            //ObjectPooler.Instance.SpawnFromPool(Enemy[1], new Vector3(0, 0), Quaternion.identity);
+        //            ObjectPooler.Instance.SpawnFromPool(EnemyType.Turtle.ToString(), new Vector3(0f, 0f), Quaternion.identity);
+        //        }
+        //    }
 
-            if (AppleEnemy)
-            {
-                //ObjectPooler.Instance.SpawnFromPool(Enemy[2], new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
-                ObjectPooler.Instance.SpawnFromPool(EnemyType.Apple.ToString(), new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
-            }
+        //    if (AppleEnemy)
+        //    {
+        //        //ObjectPooler.Instance.SpawnFromPool(Enemy[2], new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
+        //        ObjectPooler.Instance.SpawnFromPool(EnemyType.Apple.ToString(), new Vector3(Random.Range(-5f, 5f), 4f), Quaternion.identity);
+        //    }
             
-            timer = enemyTimerRate;
-        }
+        //    timer = enemyTimerRate;
+        //}
 
         if (Input.GetKeyDown("r"))
         {

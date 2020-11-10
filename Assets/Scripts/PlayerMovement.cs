@@ -79,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
     private float invincibilityTime = 2.0f;
-    private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
 
     public FrogSize frogSize = FrogSize.regular;
@@ -173,12 +172,6 @@ public class PlayerMovement : MonoBehaviour
             else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 moveDir = Vector2Int.left;
-                /*if (transform.localScale.x < 0)
-                {
-                    Vector3 temp = transform.localScale;
-                    temp.x *= -1;
-                    transform.localScale = temp;
-                }*/
             }
             else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
@@ -221,12 +214,6 @@ public class PlayerMovement : MonoBehaviour
             horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
             vertical = Input.GetAxisRaw("Vertical"); // -1 is down
         }
-
-        /*if (timer > 0.0f)
-        {
-            timer -= Time.deltaTime;
-            cooldown.text = "Cooldown Timer: " + timer.ToString("#.00");
-        }*/
     }
 
     private void FixedUpdate()
@@ -252,21 +239,6 @@ public class PlayerMovement : MonoBehaviour
         ObjectTypes type = (ObjectTypes) _board.AtPos(currPos + direction);
         if (type == ObjectTypes.None) return true;
         return false;
-        //RaycastHit2D[] hits = new RaycastHit2D[10];
-        //ContactFilter2D filter = new ContactFilter2D();
-
-        //// visualise the direction we are testing for
-        ////Debug.DrawRay(transform.position, r.direction, Color.blue, rayLength);
-        //int numHits = col.Cast(direction, filter, hits, distance);
-        //for(int i = 0; i < numHits; i++)
-        //{
-        //    if (!hits[i].collider.isTrigger)
-        //    {
-        //        Debug.Log("hit wall");
-        //        return false;
-        //    }
-        //}
-        //return true; //return true if it hits nothing
     }
 
     IEnumerator MoveDelay()
@@ -342,8 +314,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.SetActive(false);
-            enemy.Die(collision.gameObject.transform.position);
+            collision.gameObject.GetComponent<EnemyMovement>().Die(collision.gameObject.transform.position);
             audio.pitch = Random.Range(0.7f, 1.1f);
             audio.Play();
         }
@@ -372,6 +343,7 @@ public class PlayerMovement : MonoBehaviour
                         StartCoroutine (playerHitFlashRed());
                         ouch.Play();
                         lives--;
+                        Debug.Log("HERE");
                         RemoveHat();
                         lostALifeTimer = invincibilityTime;
                     }
@@ -380,8 +352,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                collision.gameObject.SetActive(false);
-                enemy.Die(collision.gameObject.transform.position);
+                collision.gameObject.GetComponent<EnemyMovement>().Die(collision.gameObject.transform.position);
                 audio.pitch = Random.Range(0.7f, 1.1f);
                 audio.Play();
             }
@@ -433,9 +404,10 @@ public class PlayerMovement : MonoBehaviour
         newHat.SetActive(true);
 
         Hat hatObj = hat.CreateHat(newHat);
+
         _hatStack.AddHat(hatObj);
 
-        Debug.Log("Num Hats: " + _hatStack.NumHats);
+        //Debug.Log("Num Hats: " + _hatStack.NumHats);
 
         hatObj.Activate(this);
         hatObj.Attach(this);
@@ -443,9 +415,10 @@ public class PlayerMovement : MonoBehaviour
 
     void RemoveHat()
     {
-        if (activeHatStack.Count == 0) return;
+        if (_hatStack.NumHats == 0) return;
         Hat topHat = _hatStack.Pop;
         topHat.Detach(this);
+        
     }
 
     public void AnimateBar()
@@ -498,7 +471,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayFire()
     {
-        Debug.Log("HERE");
+
         fx = Instantiate(fire, transform.position, transform.rotation);
         fx.transform.parent = transform;
     }

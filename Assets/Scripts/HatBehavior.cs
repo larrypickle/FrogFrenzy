@@ -35,7 +35,7 @@ public class HatBehavior : MonoBehaviour
                 hat = new CowboyHat(visual);
                 break;
             case HatType.Flash:
-                hat = new CowboyHat(visual);
+                hat = new FlashHat(visual);
                 break;
             case HatType.Witch:
                 hat = new WitchHat(visual);

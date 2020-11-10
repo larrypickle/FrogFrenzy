@@ -7,13 +7,11 @@ public class FlashHat : Hat
     public FlashHat(GameObject visual)
         : base(HatBehavior.HatType.Flash, visual )
     {
-
     }
 
 
     public override void Activate(PlayerMovement player)
     {
-        Debug.Log("FLASHING LIGHTS");
         base.Activate(player);
         
         // increase speed
@@ -23,11 +21,12 @@ public class FlashHat : Hat
     }
     public override void Attach(PlayerMovement player)
     {
-
+        base.Attach(player);
     }
 
     public override void Detach(PlayerMovement player)
     {
+        base.Detach(player);
         player.MoveDelayTime *= player.hatSpeedMultiplier;
         player.DestroyFire();
         player.runSpeed -= 10f;

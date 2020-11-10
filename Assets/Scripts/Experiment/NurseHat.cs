@@ -42,11 +42,13 @@ public class NurseHat : Hat
     }
     public override void Attach(PlayerMovement player)
     {
-
+        base.Attach(player);
     }
 
     public override void Detach(PlayerMovement player)
     {
+        base.Detach(player);
+
         int numNurseHats = player.Hats.GetNumHat(_type);
         if (numNurseHats < 2)
         {

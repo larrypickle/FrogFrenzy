@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de336f138538f194bb2487bd4d1b6943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 95ccbcd6f8156ce4f9433b52750c569e, type: 2}
   moveSpeed: 2.5
   canMove: 1
   vfx: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
@@ -119,4 +120,5 @@ MonoBehaviour:
   player: {fileID: 0}
   lengthIncrease: 0.25
   hit: {fileID: 7838565069297884542, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
+  pushForce: 1
   spawnDuration: 1

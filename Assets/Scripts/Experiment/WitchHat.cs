@@ -26,11 +26,12 @@ public class WitchHat : Hat
 
     public override void Attach(PlayerMovement player)
     {
-
+        base.Attach(player);
     }
 
     public override void Detach(PlayerMovement player)
     {
+        base.Detach(player);
         player.killTime -= 3f;
     }
 }

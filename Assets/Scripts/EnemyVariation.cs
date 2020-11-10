@@ -16,7 +16,7 @@ public class EnemyVariation : EnemyMovement
    
     private void ChangeDirection()
     {
-        Debug.Log("Works");
+        //Debug.Log("Works");
         rb.AddForce(new Vector2(Random.Range(-3f, 3f), 0));
     }
 }
