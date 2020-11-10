@@ -393,6 +393,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if(activeHatStack.Count >= 3) {
                             removeAHat();
+                            lives--;
                         }
                         collision.gameObject.GetComponent<HatBehavior>().activateHat();
                         addAHat(hats[i]);
