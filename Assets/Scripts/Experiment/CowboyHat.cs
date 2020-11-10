@@ -8,7 +8,6 @@ public class CowboyHat : Hat
     public CowboyHat(GameObject visual)
         : base(HatBehavior.HatType.Cowboy, visual)
     {
-
     }
 
 

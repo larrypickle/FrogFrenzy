@@ -7,13 +7,11 @@ public class FlashHat : Hat
     public FlashHat(GameObject visual)
         : base(HatBehavior.HatType.Flash, visual )
     {
-
     }
 
 
     public override void Activate(PlayerMovement player)
     {
-        Debug.Log("FLASHING LIGHTS");
         base.Activate(player);
         
         // increase speed
