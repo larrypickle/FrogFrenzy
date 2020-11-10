@@ -23,19 +23,8 @@ public class NurseHat : Hat
             enemy.GetComponent<EnemyMovement>().moveSpeed /= 4.0f;
         }
 
+        player.currentObjectScale = player.OGObjectScale - 0.1f * player.Hats.GetNumHat(_type);
 
-        //shrink player (BUGGY... maybe fixed?)
-        // update frog size
-        if (player.frogSize == FrogSize.regular)
-        {
-            player.frogSize = FrogSize.small;
-            player.currentObjectScale = player.OGObjectScale - 0.1f;
-        }
-        else if (player.frogSize == FrogSize.small)
-        {
-            player.frogSize = FrogSize.smallest;
-            player.currentObjectScale = player.OGObjectScale - 0.2f;
-        }
         player.transform.localScale = new Vector3(player.currentObjectScale, player.currentObjectScale, player.currentObjectScale);
         player.col.radius /= 1.7f;
 
@@ -50,21 +39,7 @@ public class NurseHat : Hat
         base.Detach(player);
 
         int numNurseHats = player.Hats.GetNumHat(_type);
-        if (numNurseHats < 2)
-        {
-            Debug.Log($"Making {player.frogSize}");
-            switch (player.frogSize)
-            {
-                case FrogSize.smallest:
-                    player.frogSize = FrogSize.small;
-                    player.currentObjectScale = player.OGObjectScale - 0.1f;
-                    break;
-                case FrogSize.small:
-                    player.frogSize = FrogSize.regular;
-                    player.currentObjectScale = player.OGObjectScale;
-                    break;
-            }
-        }
+        player.currentObjectScale = player.OGObjectScale - 0.1f * numNurseHats;
         player.gameObject.transform.localScale = new Vector3(player.currentObjectScale, player.currentObjectScale, player.currentObjectScale);
         // reset enemy move speed
         GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");

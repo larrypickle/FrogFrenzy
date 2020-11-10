@@ -13,7 +13,15 @@ public class HatStack
     }
 
     public Hat Top => _activeHats.Peek();
-    public Hat Pop => _activeHats.Pop();
+    public Hat Pop()
+    {
+        Hat hatToPop = _activeHats.Pop();
+        if (_hatTypeNumber.ContainsKey(hatToPop.Type))
+        {
+            _hatTypeNumber[hatToPop.Type] -= 1;
+        }
+        return hatToPop;
+    }
 
     public void AddHat(Hat hatType)
     {

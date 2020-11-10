@@ -136,6 +136,7 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator FlashHit()
     {
         renderer.material = data.HitMat;
+        collider.enabled = false;
         yield return new WaitForSeconds(data.FlashTime);
         renderer.material = data.DefaultMat;
         this.gameObject.SetActive(false);

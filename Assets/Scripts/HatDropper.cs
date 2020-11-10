@@ -22,8 +22,9 @@ public class HatDropper : MonoBehaviour
 
     void Shuffle () {
         for (int i = 0; i < hatSprites.Length; i++ ) {
-            GameObject [] temp = { hatSprites[i], hatSprites[i] };
-            int randomIndex = Random.Range (i, hatSprites.GetLength (0));
+
+            GameObject[] temp = { hatSprites[i], hatSprites[i] };
+            int randomIndex = Random.Range(i, hatSprites.GetLength(0));
             hatSprites[i] = hatSprites[randomIndex];
             hatSprites[randomIndex] = temp[0];
         }

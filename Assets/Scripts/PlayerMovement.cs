@@ -36,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
     public float attackLength = 0.25f;
     public float OGObjectScale = 0.3f;
     public float currentObjectScale;
-    public GameObject vfx;
 
     //for collision
 
@@ -343,7 +342,6 @@ public class PlayerMovement : MonoBehaviour
                         StartCoroutine (playerHitFlashRed());
                         ouch.Play();
                         lives--;
-                        Debug.Log("HERE");
                         RemoveHat();
                         lostALifeTimer = invincibilityTime;
                     }
@@ -372,15 +370,15 @@ public class PlayerMovement : MonoBehaviour
             powerup.pitch = 1;
 
             HatBehavior hatB = collision.GetComponent<HatBehavior>();
-            if (_hatStack.GetNumHat(hatB.Type) ==  0) {
-                if (_hatStack.NumHats >= 3)
-                {
-                    RemoveHat();
-                    lives--;
-                }
-
-                AddHat(hatB);
+            //if (_hatStack.GetNumHat(hatB.Type) ==  0) {
+            if (_hatStack.NumHats >= 3)
+            {
+                RemoveHat();
+                lives--;
             }
+
+            AddHat(hatB);
+            //}
             Destroy(collision.gameObject);
         }
     }
@@ -416,7 +414,7 @@ public class PlayerMovement : MonoBehaviour
     void RemoveHat()
     {
         if (_hatStack.NumHats == 0) return;
-        Hat topHat = _hatStack.Pop;
+        Hat topHat = _hatStack.Pop();
         topHat.Detach(this);
         
     }
@@ -464,16 +462,22 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    Stack<GameObject> fireFX = new Stack<GameObject>();
+
     public void DestroyFire()
     {
-        if (fx != null) Destroy(fx);
+        if (fireFX.Count != 0) {
+            GameObject fx = fireFX.Pop();
+            Destroy(fx);
+        }
     }
 
     public void PlayFire()
     {
 
-        fx = Instantiate(fire, transform.position, transform.rotation);
+        GameObject fx = Instantiate(fire, transform.position, transform.rotation);
         fx.transform.parent = transform;
+        fireFX.Push(fx);
     }
 
     public void PlayAttack()

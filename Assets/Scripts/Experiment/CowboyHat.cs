@@ -28,5 +28,6 @@ public class CowboyHat : Hat
     public override void Detach(PlayerMovement player)
     {
         base.Detach(player);
+        player.pushSize -= 1f;
     }
 }
