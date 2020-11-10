@@ -113,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        attack.LeanColor(Color.black, 0.1f);
+        attack.LeanAlpha(0.8f, 0.1f);
+
         currentObjectScale = OGObjectScale;
         ogEnemyMoveSpeed = enemy.GetComponent<EnemyMovement>().moveSpeed;
         CanMove = true;

@@ -29,5 +29,7 @@ public class CowboyHat : Hat
     {
         base.Detach(player);
         player.pushSize -= 1f;
+        player.attack.LeanColor(Color.black, 0.1f);
+        player.attack.LeanAlpha(0.8f, 0.1f);
     }
 }

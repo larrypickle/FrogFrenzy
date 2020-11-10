@@ -78,7 +78,14 @@ public class EnemyMovement : MonoBehaviour
             forward = -dir.normalized;
             if(gameObject != null)
             {
-                gameObject.transform.position += forward * player.pushSize;
+                if (player.pushSize == 1)
+                {
+                    gameObject.transform.position += forward * player.pushSize;
+                }
+                else if (player.pushSize > 1)
+                {
+                    gameObject.transform.position += forward * player.pushSize * 2;
+                }
 
             }
 
@@ -107,6 +114,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField, Range(0, 5)] private float spawnDuration;
     private void OnEnable()
     {
+        this.collider.enabled = true;
         phase = EnemyPhase.Spawning;
         StartCoroutine(ChangeOpacity(0f, 1f, spawnDuration));
     }
@@ -126,7 +134,7 @@ public class EnemyMovement : MonoBehaviour
         }
         currColor.a = end;
         renderer.color = currColor;
-        phase = EnemyPhase.Active;
+        phase = EnemyPhase.Active;  
     }
 
     public void HandleHit()
@@ -136,7 +144,7 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator FlashHit()
     {
         renderer.material = data.HitMat;
-        collider.enabled = false;
+        this.collider.enabled = false;
         yield return new WaitForSeconds(data.FlashTime);
         renderer.material = data.DefaultMat;
         this.gameObject.SetActive(false);

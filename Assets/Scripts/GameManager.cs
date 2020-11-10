@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour
     
 
     private float currScore = 0f;
+    private float highScore = 0f;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highScoreText;
 
     private Grid gameBoard;
     [SerializeField] private Vector2Int boardDimension = new Vector2Int(10, 10);
@@ -54,6 +56,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        highScore = PlayerPrefs.GetFloat("highScore", highScore);
+        highScoreText.SetText("High Score: " + highScore.ToString());
         currScore = 0;
     }
 
@@ -135,6 +139,13 @@ public class GameManager : MonoBehaviour
         {
             enemyTimerRate = 0.2f;
             SpawnRate += 0.15f;
+        }
+
+        if(currScore > highScore)
+        {
+            highScore = currScore;
+            PlayerPrefs.SetFloat("highScore", highScore);
+            highScoreText.SetText("High Score: " + highScore.ToString());
         }
     }
 
