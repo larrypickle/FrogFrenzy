@@ -21,11 +21,12 @@ public class FlashHat : Hat
     }
     public override void Attach(PlayerMovement player)
     {
-
+        base.Attach(player);
     }
 
     public override void Detach(PlayerMovement player)
     {
+        base.Detach(player);
         player.MoveDelayTime *= player.hatSpeedMultiplier;
         player.DestroyFire();
         player.runSpeed -= 10f;

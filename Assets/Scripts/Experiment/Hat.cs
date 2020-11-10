@@ -24,12 +24,13 @@ public class Hat
     public virtual void Attach(PlayerMovement player)
     {
         if (!ValidatePlayer(player)) return;
-      //  Debug.Log($"Attaching Hat: {_type}");
+        //  Debug.Log($"Attaching Hat: {_type}");
         player.lives++;
     }
     public virtual void Detach(PlayerMovement player)
     {
         if (!ValidatePlayer(player)) return;
+        Object.Destroy(_visual);
        // Debug.Log($"Detaching Hat: {_type}");
     }
 

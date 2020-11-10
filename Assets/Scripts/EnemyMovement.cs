@@ -12,6 +12,9 @@ public enum EnemyPhase
 
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] private EnemyData data;
+
+
     [Header("Enemy Info")]
     public float moveSpeed = 5f;
     public bool canMove = true;
@@ -25,7 +28,6 @@ public class EnemyMovement : MonoBehaviour
     public PlayerMovement player;
     public float lengthIncrease = 0.25f;
     public AudioSource hit;
-
     public float pushForce = 1f;
 
     private GameManager gameManager;
@@ -41,6 +43,7 @@ public class EnemyMovement : MonoBehaviour
         renderer = GetComponent<SpriteRenderer>();
         currColor = renderer.color;
         collider = GetComponent<Collider2D>();
+
     }
     // Start is called before the first frame update
     protected void Start()
@@ -68,28 +71,9 @@ public class EnemyMovement : MonoBehaviour
         //when it gets hit by the push
         if (collision.gameObject.CompareTag("Attack"))
         {
-
-            // delete self
-            // Debug.Log("hit");
             GameObject spawnedfx = Instantiate(vfx2, transform.position, Quaternion.identity) as GameObject;
-            /*forward *= -1;
-            Vector3 pos = gameObject.transform.position;
-            gameObject.transform.position += forward * pushForce;*/
-            /*if ((pos.x < player.transform.position.x) && (forward.x > 0))
-                forward.x *= -1;
-
-            if ((pos.x > player.transform.position.x) && (forward.x < 0))
-                forward.x *= -1;
-
-            if ((pos.y < player.transform.position.y) && (forward.y > 0))
-                forward.y *= -1;
-
-            if ((pos.y > player.transform.position.y) && (forward.y < 0))
-                forward.y *= -1;*/
             hit.Play();
-            //gameManager.UpdateScore();
-            //player.attackLength += lengthIncrease;
-            //gameObject.SetActive(false);
+
             Vector3 dir = collision.transform.position - transform.position;
             forward = -dir.normalized;
             if(gameObject != null)
@@ -104,14 +88,12 @@ public class EnemyMovement : MonoBehaviour
     }
     public void Die(Vector3 pos)
     {
+        HandleHit();
         GameObject spawnedfx = Instantiate(vfx, pos, Quaternion.identity) as GameObject;
         //forward *= -1;
         gameManager.UpdateScore();
     }
 
-    /*
-        
-    */
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
@@ -138,12 +120,6 @@ public class EnemyMovement : MonoBehaviour
         for (float t = 0f; t < duration; t += Time.deltaTime)
         {
             float normalizedTime = t / duration;
-            //if (forceOpacity)
-            //{
-            //    currColor.a = end;
-            //    mat.color = currColor;
-            //    yield break;
-            //}
             currColor.a = Mathf.Lerp(start, end, normalizedTime);
             renderer.color = currColor;
             yield return null;
@@ -151,6 +127,18 @@ public class EnemyMovement : MonoBehaviour
         currColor.a = end;
         renderer.color = currColor;
         phase = EnemyPhase.Active;
+    }
+
+    public void HandleHit()
+    {
+        StartCoroutine(FlashHit());
+    }
+    IEnumerator FlashHit()
+    {
+        renderer.material = data.HitMat;
+        yield return new WaitForSeconds(data.FlashTime);
+        renderer.material = data.DefaultMat;
+        this.gameObject.SetActive(false);
     }
 }
 

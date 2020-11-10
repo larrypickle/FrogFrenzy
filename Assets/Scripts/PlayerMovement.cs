@@ -79,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
     public float hatSpeedMultiplier = 2.0f;
     private float lostALifeTimer;
     private float invincibilityTime = 2.0f;
-    private Stack<GameObject> activeHatStack = new Stack<GameObject>();
     public int lives = 0;
 
     public FrogSize frogSize = FrogSize.regular;
@@ -315,8 +314,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.SetActive(false);
-            enemy.Die(collision.gameObject.transform.position);
+            collision.gameObject.GetComponent<EnemyMovement>().Die(collision.gameObject.transform.position);
             audio.pitch = Random.Range(0.7f, 1.1f);
             audio.Play();
         }
@@ -345,6 +343,7 @@ public class PlayerMovement : MonoBehaviour
                         StartCoroutine (playerHitFlashRed());
                         ouch.Play();
                         lives--;
+                        Debug.Log("HERE");
                         RemoveHat();
                         lostALifeTimer = invincibilityTime;
                     }
@@ -353,8 +352,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                collision.gameObject.SetActive(false);
-                enemy.Die(collision.gameObject.transform.position);
+                collision.gameObject.GetComponent<EnemyMovement>().Die(collision.gameObject.transform.position);
                 audio.pitch = Random.Range(0.7f, 1.1f);
                 audio.Play();
             }
@@ -417,9 +415,10 @@ public class PlayerMovement : MonoBehaviour
 
     void RemoveHat()
     {
-        if (activeHatStack.Count == 0) return;
+        if (_hatStack.NumHats == 0) return;
         Hat topHat = _hatStack.Pop;
         topHat.Detach(this);
+        
     }
 
     public void AnimateBar()
