@@ -305,7 +305,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: r - restart wasd - move space - push
+  m_text: wasd - move space - push esc - pause
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3aef5ccdad4243a4ea7732e800712a66, type: 2}
   m_sharedMaterial: {fileID: -7229507135789069175, guid: 3aef5ccdad4243a4ea7732e800712a66, type: 2}
@@ -5179,6 +5179,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1648014722}
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[0].prefab
       value: 
       objectReference: {fileID: 559339657}
@@ -5213,6 +5217,30 @@ PrefabInstance:
     - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: pools.Array.data[0].tag
       value: Snake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[3].tag
+      value: BloodExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 149344, guid: 617378de28fbaa64c96485d5b0d9169b, type: 3}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[4].tag
+      value: HitFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 151244, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[3].size
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110682710433012121, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
+      propertyPath: pools.Array.data[4].size
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1999268830777439654, guid: 9177500381fa70e46bc18e7cb49df840, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5668,7 +5696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838565069297884542, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
       propertyPath: m_PlayOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7838565069297884543, guid: e6bd01694e7d5594c9481051302e5e23, type: 3}
       propertyPath: m_Name

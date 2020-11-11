@@ -4,17 +4,17 @@ using System.Collections;
 /* Example script to apply trauma to the camera or any game object */
 public class TraumaInducer : MonoBehaviour 
 {
-    [Tooltip("Seconds to wait before trigerring the explosion particles and the trauma effect")]
-    public float Delay = 1;
+    //[Tooltip("Seconds to wait before trigerring the explosion particles and the trauma effect")]
+    //public float Delay = 1;
     [Tooltip("Maximum stress the effect can inflict upon objects Range([0,1])")]
     public float MaximumStress = 0.6f;
     [Tooltip("Maximum distance in which objects are affected by this TraumaInducer")]
     public float Range = 45;
 
-    private IEnumerator Start()
+    private void OnEnable()
     {
         /* Wait for the specified delay */
-        yield return new WaitForSeconds(Delay);
+        //yield return new WaitForSeconds(Delay);
         /* Play all the particle system this object has */
         PlayParticles();
 

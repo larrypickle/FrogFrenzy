@@ -36,6 +36,7 @@ public class EnemyMovement : MonoBehaviour
     private Collider2D collider;
     Color currColor;
 
+    private GameObject spawnedFX;
     public EnemyPhase Phase => phase;
 
     protected void Awake()
@@ -71,7 +72,8 @@ public class EnemyMovement : MonoBehaviour
         //when it gets hit by the push
         if (collision.gameObject.CompareTag("Attack"))
         {
-            GameObject spawnedfx = Instantiate(vfx2, transform.position, Quaternion.identity) as GameObject;
+            spawnedFX = ObjectPooler.Instance.SpawnFromPool("HitFX", transform.position, Quaternion.identity);
+
             hit.Play();
 
             Vector3 dir = collision.transform.position - transform.position;
@@ -96,7 +98,9 @@ public class EnemyMovement : MonoBehaviour
     public void Die(Vector3 pos)
     {
         HandleHit();
-        GameObject spawnedfx = Instantiate(vfx, pos, Quaternion.identity) as GameObject;
+        spawnedFX = ObjectPooler.Instance.SpawnFromPool("BloodExplosion", transform.position, Quaternion.identity);
+
+        //GameObject spawnedfx = Instantiate(vfx, pos, Quaternion.identity) as GameObject;
         //forward *= -1;
         gameManager.UpdateScore();
     }
@@ -149,6 +153,12 @@ public class EnemyMovement : MonoBehaviour
         renderer.material = data.DefaultMat;
         this.gameObject.SetActive(false);
     }
+
+    /*IEnumerator Deactivate()
+    {
+        yield return new WaitForSeconds(1f);
+        spawnedFX.SetActive(false);
+    }*/
 }
 
 

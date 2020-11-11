@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 19821674}
   - component: {fileID: 19912412}
   - component: {fileID: 4131185376444262433}
+  - component: {fileID: 4357143295085950470}
   m_Layer: 0
   m_Name: MetalHit2D
   m_TagString: Untagged
@@ -4764,7 +4765,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: f49f152fbc313b14b8d4b82329b10a1c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4822,9 +4822,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delay: 0
-  MaximumStress: 0.1
+  MaximumStress: 0.15
   Range: 44.82
+--- !u!114 &4357143295085950470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31607f83e7aa3a54fb4e74aeb33e850e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &179710
 GameObject:
   m_ObjectHideFlags: 0
@@ -9614,7 +9625,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 150aee38b5d848b42b75593618992bb7, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -20,6 +20,7 @@ enum EnemyType
 
 public class GameManager : MonoBehaviour
 {
+    private bool Paused;
     float timer = 0f;
     //public GameObject enemy;
     public float enemyTimerRate = 2f;
@@ -64,6 +65,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("escape"))
+        {
+            if (Paused == true)
+            {
+                Time.timeScale = 1.0f;
+                Paused = false;
+            }
+            else
+            {
+                Time.timeScale = 0.0f;
+                Paused = true;
+            }
+        }
         timer -= Time.deltaTime;
         //spawns more enemies over time
         if (timer <= 0)
