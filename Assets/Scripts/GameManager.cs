@@ -20,7 +20,7 @@ enum EnemyType
 
 public class GameManager : MonoBehaviour
 {
-    private bool Paused;
+    //private bool Paused;
     float timer = 0f;
     //public GameObject enemy;
     public float enemyTimerRate = 2f;
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
 
 
     private PlayerMovement player;
+    public GameObject pauseMenu;
 
     private void Awake()
     {
@@ -67,15 +68,15 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown("escape"))
         {
-            if (Paused == true)
+            if (Time.timeScale == 0.0f)
             {
                 Time.timeScale = 1.0f;
-                Paused = false;
+                pauseMenu.SetActive(false);
             }
             else
             {
                 Time.timeScale = 0.0f;
-                Paused = true;
+                pauseMenu.SetActive(true);
             }
         }
         timer -= Time.deltaTime;

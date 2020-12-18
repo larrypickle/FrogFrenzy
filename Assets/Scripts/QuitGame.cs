@@ -9,4 +9,9 @@ public class QuitGame : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
+    }
 }
